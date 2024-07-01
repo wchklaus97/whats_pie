@@ -20,7 +20,7 @@ mixin _$FilesSearcherState {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo files) complete,
+    required TResult Function(DirectoryInfo directoryInfo) complete,
     required TResult Function(String errorMsg) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$FilesSearcherState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo files)? complete,
+    TResult? Function(DirectoryInfo directoryInfo)? complete,
     TResult? Function(String errorMsg)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$FilesSearcherState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo files)? complete,
+    TResult Function(DirectoryInfo directoryInfo)? complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) =>
@@ -125,7 +125,7 @@ class _$IdleImpl implements Idle {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo files) complete,
+    required TResult Function(DirectoryInfo directoryInfo) complete,
     required TResult Function(String errorMsg) error,
   }) {
     return idle();
@@ -136,7 +136,7 @@ class _$IdleImpl implements Idle {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo files)? complete,
+    TResult? Function(DirectoryInfo directoryInfo)? complete,
     TResult? Function(String errorMsg)? error,
   }) {
     return idle?.call();
@@ -147,7 +147,7 @@ class _$IdleImpl implements Idle {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo files)? complete,
+    TResult Function(DirectoryInfo directoryInfo)? complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
@@ -239,7 +239,7 @@ class _$SearchingImpl implements Searching {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo files) complete,
+    required TResult Function(DirectoryInfo directoryInfo) complete,
     required TResult Function(String errorMsg) error,
   }) {
     return searching();
@@ -250,7 +250,7 @@ class _$SearchingImpl implements Searching {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo files)? complete,
+    TResult? Function(DirectoryInfo directoryInfo)? complete,
     TResult? Function(String errorMsg)? error,
   }) {
     return searching?.call();
@@ -261,7 +261,7 @@ class _$SearchingImpl implements Searching {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo files)? complete,
+    TResult Function(DirectoryInfo directoryInfo)? complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
@@ -319,9 +319,9 @@ abstract class _$$CompleteImplCopyWith<$Res> {
           _$CompleteImpl value, $Res Function(_$CompleteImpl) then) =
       __$$CompleteImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({DirectoryInfo files});
+  $Res call({DirectoryInfo directoryInfo});
 
-  $DirectoryInfoCopyWith<$Res> get files;
+  $DirectoryInfoCopyWith<$Res> get directoryInfo;
 }
 
 /// @nodoc
@@ -335,21 +335,21 @@ class __$$CompleteImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? files = null,
+    Object? directoryInfo = null,
   }) {
     return _then(_$CompleteImpl(
-      null == files
-          ? _value.files
-          : files // ignore: cast_nullable_to_non_nullable
+      null == directoryInfo
+          ? _value.directoryInfo
+          : directoryInfo // ignore: cast_nullable_to_non_nullable
               as DirectoryInfo,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $DirectoryInfoCopyWith<$Res> get files {
-    return $DirectoryInfoCopyWith<$Res>(_value.files, (value) {
-      return _then(_value.copyWith(files: value));
+  $DirectoryInfoCopyWith<$Res> get directoryInfo {
+    return $DirectoryInfoCopyWith<$Res>(_value.directoryInfo, (value) {
+      return _then(_value.copyWith(directoryInfo: value));
     });
   }
 }
@@ -357,14 +357,14 @@ class __$$CompleteImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CompleteImpl implements Complete {
-  const _$CompleteImpl(this.files);
+  const _$CompleteImpl(this.directoryInfo);
 
   @override
-  final DirectoryInfo files;
+  final DirectoryInfo directoryInfo;
 
   @override
   String toString() {
-    return 'FilesSearcherState.complete(files: $files)';
+    return 'FilesSearcherState.complete(directoryInfo: $directoryInfo)';
   }
 
   @override
@@ -372,11 +372,12 @@ class _$CompleteImpl implements Complete {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompleteImpl &&
-            (identical(other.files, files) || other.files == files));
+            (identical(other.directoryInfo, directoryInfo) ||
+                other.directoryInfo == directoryInfo));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, files);
+  int get hashCode => Object.hash(runtimeType, directoryInfo);
 
   @JsonKey(ignore: true)
   @override
@@ -389,10 +390,10 @@ class _$CompleteImpl implements Complete {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo files) complete,
+    required TResult Function(DirectoryInfo directoryInfo) complete,
     required TResult Function(String errorMsg) error,
   }) {
-    return complete(files);
+    return complete(directoryInfo);
   }
 
   @override
@@ -400,10 +401,10 @@ class _$CompleteImpl implements Complete {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo files)? complete,
+    TResult? Function(DirectoryInfo directoryInfo)? complete,
     TResult? Function(String errorMsg)? error,
   }) {
-    return complete?.call(files);
+    return complete?.call(directoryInfo);
   }
 
   @override
@@ -411,12 +412,12 @@ class _$CompleteImpl implements Complete {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo files)? complete,
+    TResult Function(DirectoryInfo directoryInfo)? complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
     if (complete != null) {
-      return complete(files);
+      return complete(directoryInfo);
     }
     return orElse();
   }
@@ -460,9 +461,9 @@ class _$CompleteImpl implements Complete {
 }
 
 abstract class Complete implements FilesSearcherState {
-  const factory Complete(final DirectoryInfo files) = _$CompleteImpl;
+  const factory Complete(final DirectoryInfo directoryInfo) = _$CompleteImpl;
 
-  DirectoryInfo get files;
+  DirectoryInfo get directoryInfo;
   @JsonKey(ignore: true)
   _$$CompleteImplCopyWith<_$CompleteImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -535,7 +536,7 @@ class _$ErrorImpl implements Error {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo files) complete,
+    required TResult Function(DirectoryInfo directoryInfo) complete,
     required TResult Function(String errorMsg) error,
   }) {
     return error(errorMsg);
@@ -546,7 +547,7 @@ class _$ErrorImpl implements Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo files)? complete,
+    TResult? Function(DirectoryInfo directoryInfo)? complete,
     TResult? Function(String errorMsg)? error,
   }) {
     return error?.call(errorMsg);
@@ -557,7 +558,7 @@ class _$ErrorImpl implements Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo files)? complete,
+    TResult Function(DirectoryInfo directoryInfo)? complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {

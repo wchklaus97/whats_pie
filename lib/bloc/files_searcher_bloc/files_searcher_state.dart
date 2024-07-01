@@ -7,6 +7,7 @@ part 'files_searcher_state.freezed.dart';
 class FilesSearcherState with _$FilesSearcherState {
   const factory FilesSearcherState.idle() = Idle;
   const factory FilesSearcherState.searching() = Searching;
-  const factory FilesSearcherState.complete(DirectoryInfo files) = Complete;
+  const factory FilesSearcherState.complete(DirectoryInfo directoryInfo) =
+      Complete;
   const factory FilesSearcherState.error(String errorMsg) = Error;
 }
