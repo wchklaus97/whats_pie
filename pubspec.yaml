@@ -46,6 +46,7 @@ dependencies:
   json_annotation: ^4.9.0
   loading_animation_widget: ^1.2.1
   resizable_widget: ^1.0.5
+  intl:
 
 dev_dependencies:
   flutter_test:

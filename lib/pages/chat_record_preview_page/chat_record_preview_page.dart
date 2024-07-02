@@ -50,10 +50,12 @@ class _ChatRecordPreviewPageState extends State<ChatRecordPreviewPage> {
           final width = boxConstraints.maxWidth;
           if (previewInfoNotifi.value != null) {
             if (!previewInfoNotifi.value!.haveSameRatio(width)) {
-              previewInfoNotifi.value = PreviewInfo.init(width: width);
+              previewInfoNotifi.value =
+                  previewInfoNotifi.value!.copyWith(width: width);
             }
           } else {
-            previewInfoNotifi.value = PreviewInfo.init(width: width);
+            previewInfoNotifi.value = PreviewInfo.init(
+                width: width, directoryInfo: widget.directoryInfo);
           }
           return ValueListenableBuilder<PreviewInfo?>(
             valueListenable: previewInfoNotifi,
