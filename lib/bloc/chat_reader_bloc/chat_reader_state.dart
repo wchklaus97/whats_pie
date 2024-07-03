@@ -9,6 +9,6 @@ class ChatReaderState with _$ChatReaderState {
   const factory ChatReaderState.idle() = Idle;
   const factory ChatReaderState.reading() = Reading;
   const factory ChatReaderState.complete(ChatInfo chatInfo) = Complete;
-  const factory ChatReaderState.userSwitched() = UserSwitched;
+  const factory ChatReaderState.userSwitched(ChatInfo chatInfo) = UserSwitched;
   const factory ChatReaderState.error(String errorMsg) = Error;
 }

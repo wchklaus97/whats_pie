@@ -21,7 +21,7 @@ mixin _$ChatReaderState {
     required TResult Function() idle,
     required TResult Function() reading,
     required TResult Function(ChatInfo chatInfo) complete,
-    required TResult Function() userSwitched,
+    required TResult Function(ChatInfo chatInfo) userSwitched,
     required TResult Function(String errorMsg) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,7 +30,7 @@ mixin _$ChatReaderState {
     TResult? Function()? idle,
     TResult? Function()? reading,
     TResult? Function(ChatInfo chatInfo)? complete,
-    TResult? Function()? userSwitched,
+    TResult? Function(ChatInfo chatInfo)? userSwitched,
     TResult? Function(String errorMsg)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ mixin _$ChatReaderState {
     TResult Function()? idle,
     TResult Function()? reading,
     TResult Function(ChatInfo chatInfo)? complete,
-    TResult Function()? userSwitched,
+    TResult Function(ChatInfo chatInfo)? userSwitched,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) =>
@@ -138,7 +138,7 @@ class _$IdleImpl with DiagnosticableTreeMixin implements Idle {
     required TResult Function() idle,
     required TResult Function() reading,
     required TResult Function(ChatInfo chatInfo) complete,
-    required TResult Function() userSwitched,
+    required TResult Function(ChatInfo chatInfo) userSwitched,
     required TResult Function(String errorMsg) error,
   }) {
     return idle();
@@ -150,7 +150,7 @@ class _$IdleImpl with DiagnosticableTreeMixin implements Idle {
     TResult? Function()? idle,
     TResult? Function()? reading,
     TResult? Function(ChatInfo chatInfo)? complete,
-    TResult? Function()? userSwitched,
+    TResult? Function(ChatInfo chatInfo)? userSwitched,
     TResult? Function(String errorMsg)? error,
   }) {
     return idle?.call();
@@ -162,7 +162,7 @@ class _$IdleImpl with DiagnosticableTreeMixin implements Idle {
     TResult Function()? idle,
     TResult Function()? reading,
     TResult Function(ChatInfo chatInfo)? complete,
-    TResult Function()? userSwitched,
+    TResult Function(ChatInfo chatInfo)? userSwitched,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
@@ -264,7 +264,7 @@ class _$ReadingImpl with DiagnosticableTreeMixin implements Reading {
     required TResult Function() idle,
     required TResult Function() reading,
     required TResult Function(ChatInfo chatInfo) complete,
-    required TResult Function() userSwitched,
+    required TResult Function(ChatInfo chatInfo) userSwitched,
     required TResult Function(String errorMsg) error,
   }) {
     return reading();
@@ -276,7 +276,7 @@ class _$ReadingImpl with DiagnosticableTreeMixin implements Reading {
     TResult? Function()? idle,
     TResult? Function()? reading,
     TResult? Function(ChatInfo chatInfo)? complete,
-    TResult? Function()? userSwitched,
+    TResult? Function(ChatInfo chatInfo)? userSwitched,
     TResult? Function(String errorMsg)? error,
   }) {
     return reading?.call();
@@ -288,7 +288,7 @@ class _$ReadingImpl with DiagnosticableTreeMixin implements Reading {
     TResult Function()? idle,
     TResult Function()? reading,
     TResult Function(ChatInfo chatInfo)? complete,
-    TResult Function()? userSwitched,
+    TResult Function(ChatInfo chatInfo)? userSwitched,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
@@ -429,7 +429,7 @@ class _$CompleteImpl with DiagnosticableTreeMixin implements Complete {
     required TResult Function() idle,
     required TResult Function() reading,
     required TResult Function(ChatInfo chatInfo) complete,
-    required TResult Function() userSwitched,
+    required TResult Function(ChatInfo chatInfo) userSwitched,
     required TResult Function(String errorMsg) error,
   }) {
     return complete(chatInfo);
@@ -441,7 +441,7 @@ class _$CompleteImpl with DiagnosticableTreeMixin implements Complete {
     TResult? Function()? idle,
     TResult? Function()? reading,
     TResult? Function(ChatInfo chatInfo)? complete,
-    TResult? Function()? userSwitched,
+    TResult? Function(ChatInfo chatInfo)? userSwitched,
     TResult? Function(String errorMsg)? error,
   }) {
     return complete?.call(chatInfo);
@@ -453,7 +453,7 @@ class _$CompleteImpl with DiagnosticableTreeMixin implements Complete {
     TResult Function()? idle,
     TResult Function()? reading,
     TResult Function(ChatInfo chatInfo)? complete,
-    TResult Function()? userSwitched,
+    TResult Function(ChatInfo chatInfo)? userSwitched,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
@@ -518,6 +518,10 @@ abstract class _$$UserSwitchedImplCopyWith<$Res> {
   factory _$$UserSwitchedImplCopyWith(
           _$UserSwitchedImpl value, $Res Function(_$UserSwitchedImpl) then) =
       __$$UserSwitchedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ChatInfo chatInfo});
+
+  $ChatInfoCopyWith<$Res> get chatInfo;
 }
 
 /// @nodoc
@@ -527,32 +531,67 @@ class __$$UserSwitchedImplCopyWithImpl<$Res>
   __$$UserSwitchedImplCopyWithImpl(
       _$UserSwitchedImpl _value, $Res Function(_$UserSwitchedImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? chatInfo = null,
+  }) {
+    return _then(_$UserSwitchedImpl(
+      null == chatInfo
+          ? _value.chatInfo
+          : chatInfo // ignore: cast_nullable_to_non_nullable
+              as ChatInfo,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatInfoCopyWith<$Res> get chatInfo {
+    return $ChatInfoCopyWith<$Res>(_value.chatInfo, (value) {
+      return _then(_value.copyWith(chatInfo: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$UserSwitchedImpl with DiagnosticableTreeMixin implements UserSwitched {
-  const _$UserSwitchedImpl();
+  const _$UserSwitchedImpl(this.chatInfo);
+
+  @override
+  final ChatInfo chatInfo;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ChatReaderState.userSwitched()';
+    return 'ChatReaderState.userSwitched(chatInfo: $chatInfo)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'ChatReaderState.userSwitched'));
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatReaderState.userSwitched'))
+      ..add(DiagnosticsProperty('chatInfo', chatInfo));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$UserSwitchedImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$UserSwitchedImpl &&
+            (identical(other.chatInfo, chatInfo) ||
+                other.chatInfo == chatInfo));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, chatInfo);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserSwitchedImplCopyWith<_$UserSwitchedImpl> get copyWith =>
+      __$$UserSwitchedImplCopyWithImpl<_$UserSwitchedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -560,10 +599,10 @@ class _$UserSwitchedImpl with DiagnosticableTreeMixin implements UserSwitched {
     required TResult Function() idle,
     required TResult Function() reading,
     required TResult Function(ChatInfo chatInfo) complete,
-    required TResult Function() userSwitched,
+    required TResult Function(ChatInfo chatInfo) userSwitched,
     required TResult Function(String errorMsg) error,
   }) {
-    return userSwitched();
+    return userSwitched(chatInfo);
   }
 
   @override
@@ -572,10 +611,10 @@ class _$UserSwitchedImpl with DiagnosticableTreeMixin implements UserSwitched {
     TResult? Function()? idle,
     TResult? Function()? reading,
     TResult? Function(ChatInfo chatInfo)? complete,
-    TResult? Function()? userSwitched,
+    TResult? Function(ChatInfo chatInfo)? userSwitched,
     TResult? Function(String errorMsg)? error,
   }) {
-    return userSwitched?.call();
+    return userSwitched?.call(chatInfo);
   }
 
   @override
@@ -584,12 +623,12 @@ class _$UserSwitchedImpl with DiagnosticableTreeMixin implements UserSwitched {
     TResult Function()? idle,
     TResult Function()? reading,
     TResult Function(ChatInfo chatInfo)? complete,
-    TResult Function()? userSwitched,
+    TResult Function(ChatInfo chatInfo)? userSwitched,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
     if (userSwitched != null) {
-      return userSwitched();
+      return userSwitched(chatInfo);
     }
     return orElse();
   }
@@ -636,7 +675,12 @@ class _$UserSwitchedImpl with DiagnosticableTreeMixin implements UserSwitched {
 }
 
 abstract class UserSwitched implements ChatReaderState {
-  const factory UserSwitched() = _$UserSwitchedImpl;
+  const factory UserSwitched(final ChatInfo chatInfo) = _$UserSwitchedImpl;
+
+  ChatInfo get chatInfo;
+  @JsonKey(ignore: true)
+  _$$UserSwitchedImplCopyWith<_$UserSwitchedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -715,7 +759,7 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
     required TResult Function() idle,
     required TResult Function() reading,
     required TResult Function(ChatInfo chatInfo) complete,
-    required TResult Function() userSwitched,
+    required TResult Function(ChatInfo chatInfo) userSwitched,
     required TResult Function(String errorMsg) error,
   }) {
     return error(errorMsg);
@@ -727,7 +771,7 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
     TResult? Function()? idle,
     TResult? Function()? reading,
     TResult? Function(ChatInfo chatInfo)? complete,
-    TResult? Function()? userSwitched,
+    TResult? Function(ChatInfo chatInfo)? userSwitched,
     TResult? Function(String errorMsg)? error,
   }) {
     return error?.call(errorMsg);
@@ -739,7 +783,7 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
     TResult Function()? idle,
     TResult Function()? reading,
     TResult Function(ChatInfo chatInfo)? complete,
-    TResult Function()? userSwitched,
+    TResult Function(ChatInfo chatInfo)? userSwitched,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {

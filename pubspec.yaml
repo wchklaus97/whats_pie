@@ -47,6 +47,7 @@ dependencies:
   loading_animation_widget: ^1.2.1
   resizable_widget: ^1.0.5
   intl:
+  huge_listview: ^2.0.12
 
 dev_dependencies:
   flutter_test:

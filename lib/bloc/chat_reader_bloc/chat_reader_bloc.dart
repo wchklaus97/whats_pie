@@ -70,7 +70,7 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
 
   Future<void> _onSwitch(
       ChatReaderSwitch event, Emitter<ChatReaderState> emit) async {
-    emit(const ChatReaderState.userSwitched());
+    // emit(const ChatReaderState.userSwitched());
   }
 }
 
