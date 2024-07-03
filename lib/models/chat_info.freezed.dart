@@ -216,7 +216,11 @@ ChatMsg _$ChatMsgFromJson(Map<String, dynamic> json) {
 mixin _$ChatMsg {
   String? get dateTime => throw _privateConstructorUsedError;
   String? get sender => throw _privateConstructorUsedError;
-  String? get msg => throw _privateConstructorUsedError;
+  List<String>? get msgs => throw _privateConstructorUsedError;
+  String? get attachmentName => throw _privateConstructorUsedError;
+  bool? get isAttachmentValid => throw _privateConstructorUsedError;
+  @FileConverter()
+  File? get file => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -228,7 +232,13 @@ abstract class $ChatMsgCopyWith<$Res> {
   factory $ChatMsgCopyWith(ChatMsg value, $Res Function(ChatMsg) then) =
       _$ChatMsgCopyWithImpl<$Res, ChatMsg>;
   @useResult
-  $Res call({String? dateTime, String? sender, String? msg});
+  $Res call(
+      {String? dateTime,
+      String? sender,
+      List<String>? msgs,
+      String? attachmentName,
+      bool? isAttachmentValid,
+      @FileConverter() File? file});
 }
 
 /// @nodoc
@@ -246,7 +256,10 @@ class _$ChatMsgCopyWithImpl<$Res, $Val extends ChatMsg>
   $Res call({
     Object? dateTime = freezed,
     Object? sender = freezed,
-    Object? msg = freezed,
+    Object? msgs = freezed,
+    Object? attachmentName = freezed,
+    Object? isAttachmentValid = freezed,
+    Object? file = freezed,
   }) {
     return _then(_value.copyWith(
       dateTime: freezed == dateTime
@@ -257,10 +270,22 @@ class _$ChatMsgCopyWithImpl<$Res, $Val extends ChatMsg>
           ? _value.sender
           : sender // ignore: cast_nullable_to_non_nullable
               as String?,
-      msg: freezed == msg
-          ? _value.msg
-          : msg // ignore: cast_nullable_to_non_nullable
+      msgs: freezed == msgs
+          ? _value.msgs
+          : msgs // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      attachmentName: freezed == attachmentName
+          ? _value.attachmentName
+          : attachmentName // ignore: cast_nullable_to_non_nullable
               as String?,
+      isAttachmentValid: freezed == isAttachmentValid
+          ? _value.isAttachmentValid
+          : isAttachmentValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as File?,
     ) as $Val);
   }
 }
@@ -272,7 +297,13 @@ abstract class _$$ChatMsgImplCopyWith<$Res> implements $ChatMsgCopyWith<$Res> {
       __$$ChatMsgImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? dateTime, String? sender, String? msg});
+  $Res call(
+      {String? dateTime,
+      String? sender,
+      List<String>? msgs,
+      String? attachmentName,
+      bool? isAttachmentValid,
+      @FileConverter() File? file});
 }
 
 /// @nodoc
@@ -288,7 +319,10 @@ class __$$ChatMsgImplCopyWithImpl<$Res>
   $Res call({
     Object? dateTime = freezed,
     Object? sender = freezed,
-    Object? msg = freezed,
+    Object? msgs = freezed,
+    Object? attachmentName = freezed,
+    Object? isAttachmentValid = freezed,
+    Object? file = freezed,
   }) {
     return _then(_$ChatMsgImpl(
       dateTime: freezed == dateTime
@@ -299,10 +333,22 @@ class __$$ChatMsgImplCopyWithImpl<$Res>
           ? _value.sender
           : sender // ignore: cast_nullable_to_non_nullable
               as String?,
-      msg: freezed == msg
-          ? _value.msg
-          : msg // ignore: cast_nullable_to_non_nullable
+      msgs: freezed == msgs
+          ? _value._msgs
+          : msgs // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      attachmentName: freezed == attachmentName
+          ? _value.attachmentName
+          : attachmentName // ignore: cast_nullable_to_non_nullable
               as String?,
+      isAttachmentValid: freezed == isAttachmentValid
+          ? _value.isAttachmentValid
+          : isAttachmentValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as File?,
     ));
   }
 }
@@ -311,7 +357,13 @@ class __$$ChatMsgImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatMsgImpl implements _ChatMsg {
   const _$ChatMsgImpl(
-      {required this.dateTime, required this.sender, required this.msg});
+      {required this.dateTime,
+      required this.sender,
+      required final List<String>? msgs,
+      required this.attachmentName,
+      required this.isAttachmentValid,
+      @FileConverter() required this.file})
+      : _msgs = msgs;
 
   factory _$ChatMsgImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatMsgImplFromJson(json);
@@ -320,12 +372,27 @@ class _$ChatMsgImpl implements _ChatMsg {
   final String? dateTime;
   @override
   final String? sender;
+  final List<String>? _msgs;
   @override
-  final String? msg;
+  List<String>? get msgs {
+    final value = _msgs;
+    if (value == null) return null;
+    if (_msgs is EqualUnmodifiableListView) return _msgs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final String? attachmentName;
+  @override
+  final bool? isAttachmentValid;
+  @override
+  @FileConverter()
+  final File? file;
 
   @override
   String toString() {
-    return 'ChatMsg(dateTime: $dateTime, sender: $sender, msg: $msg)';
+    return 'ChatMsg(dateTime: $dateTime, sender: $sender, msgs: $msgs, attachmentName: $attachmentName, isAttachmentValid: $isAttachmentValid, file: $file)';
   }
 
   @override
@@ -336,12 +403,24 @@ class _$ChatMsgImpl implements _ChatMsg {
             (identical(other.dateTime, dateTime) ||
                 other.dateTime == dateTime) &&
             (identical(other.sender, sender) || other.sender == sender) &&
-            (identical(other.msg, msg) || other.msg == msg));
+            const DeepCollectionEquality().equals(other._msgs, _msgs) &&
+            (identical(other.attachmentName, attachmentName) ||
+                other.attachmentName == attachmentName) &&
+            (identical(other.isAttachmentValid, isAttachmentValid) ||
+                other.isAttachmentValid == isAttachmentValid) &&
+            (identical(other.file, file) || other.file == file));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, dateTime, sender, msg);
+  int get hashCode => Object.hash(
+      runtimeType,
+      dateTime,
+      sender,
+      const DeepCollectionEquality().hash(_msgs),
+      attachmentName,
+      isAttachmentValid,
+      file);
 
   @JsonKey(ignore: true)
   @override
@@ -361,7 +440,10 @@ abstract class _ChatMsg implements ChatMsg {
   const factory _ChatMsg(
       {required final String? dateTime,
       required final String? sender,
-      required final String? msg}) = _$ChatMsgImpl;
+      required final List<String>? msgs,
+      required final String? attachmentName,
+      required final bool? isAttachmentValid,
+      @FileConverter() required final File? file}) = _$ChatMsgImpl;
 
   factory _ChatMsg.fromJson(Map<String, dynamic> json) = _$ChatMsgImpl.fromJson;
 
@@ -370,7 +452,14 @@ abstract class _ChatMsg implements ChatMsg {
   @override
   String? get sender;
   @override
-  String? get msg;
+  List<String>? get msgs;
+  @override
+  String? get attachmentName;
+  @override
+  bool? get isAttachmentValid;
+  @override
+  @FileConverter()
+  File? get file;
   @override
   @JsonKey(ignore: true)
   _$$ChatMsgImplCopyWith<_$ChatMsgImpl> get copyWith =>

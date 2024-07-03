@@ -70,7 +70,8 @@ class PreviewInfo {
     final newWidthPercentages = _calWidthPercentages(width);
     final fileFields = _getFileFields(directoryInfo.files);
 
-    final chatReaderBloc = ChatReaderBloc(directoryInfo.getChatRecordFile());
+    final chatReaderBloc =
+        ChatReaderBloc(directoryInfo.getChatRecordFile(), directoryInfo);
     chatReaderBloc.add(ChatReaderStart());
 
     return PreviewInfo._(

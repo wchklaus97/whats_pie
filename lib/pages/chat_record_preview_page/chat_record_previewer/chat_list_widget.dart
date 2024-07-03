@@ -30,7 +30,7 @@ class ChatListWidgetState extends State<ChatListWidget> {
 
     return widget.chatInfo.chatMsg
         .sublist(from, to)
-        .map((chatMessage) => chatMessage.msg.toString())
+        .map((chatMessage) => chatMessage.msgs.toString())
         .toList();
   }
 
@@ -77,14 +77,15 @@ class ChatListWidgetState extends State<ChatListWidget> {
             final isLastMsg = index == widget.chatInfo.chatMsg.length - 1;
             final chatMsg = widget.chatInfo.chatMsg[index];
             if (chatMsg.sender == null) {
-              return SysMsgBubble(isFirstMsg: isFirstMsg, msg: chatMsg.msg);
+              return SysMsgBubble(
+                  isFirstMsg: isFirstMsg, msg: chatMsg.msgs.toString());
             }
 
             return MsgWidget(
               isLastMsg: isLastMsg,
               dateTime: chatMsg.dateTime,
               hasTopPadding: isFirstMsg,
-              msg: chatMsg.msg,
+              msg: chatMsg.msgs,
               isSelectedUser: chatMsg.sender == widget.chatInfo.selectedUser,
             );
           },

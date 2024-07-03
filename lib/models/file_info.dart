@@ -1,24 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
+import 'package:whats_pie/models/file_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'file_info.freezed.dart';
 part 'file_info.g.dart';
-
-class FileConverter extends JsonConverter<File, String> {
-  const FileConverter();
-
-  @override
-  File fromJson(String json) {
-    return File(json);
-  }
-
-  @override
-  String toJson(File object) {
-    return object.path;
-  }
-}
 
 @freezed
 class FileInfo with _$FileInfo {

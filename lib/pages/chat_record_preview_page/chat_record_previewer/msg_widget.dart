@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whats_pie/common/bubble/msg_bubble.dart';
 
 class MsgWidget extends StatelessWidget {
-  final String? msg;
+  final List<String>? msg;
   final String? dateTime;
   final bool isLastMsg;
   final bool hasTopPadding;
@@ -29,7 +29,7 @@ class MsgWidget extends StatelessWidget {
               ? MsgBubble(
                   delivered: true,
                   isSender: isSelectedUser,
-                  text: msg!,
+                  text: msg.toString(),
                   color: isSelectedUser
                       ? const Color.fromARGB(255, 15, 190, 91)
                       : Colors.white,

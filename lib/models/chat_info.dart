@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:whats_pie/models/file_converter.dart';
 
 part 'chat_info.freezed.dart';
 part 'chat_info.g.dart';
@@ -20,7 +23,10 @@ class ChatMsg with _$ChatMsg {
   const factory ChatMsg({
     required String? dateTime,
     required String? sender,
-    required String? msg,
+    required List<String>? msgs,
+    required String? attachmentName,
+    required bool? isAttachmentValid,
+    @FileConverter() required File? file,
   }) = _ChatMsg;
 
   factory ChatMsg.fromJson(Map<String, Object?> json) =>

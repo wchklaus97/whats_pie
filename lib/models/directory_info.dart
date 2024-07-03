@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
+import 'package:collection/collection.dart';
 import 'package:whats_pie/models/file_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -20,6 +21,21 @@ class DirectoryInfo with _$DirectoryInfo {
 }
 
 extension DirectoryInfoExtensions on DirectoryInfo {
+  File? getFileWithName(String fileName) {
+    if (files != null) {
+      final file = files!.firstWhereOrNull((f) {
+        if (f.fileType == 'txt') return false;
+
+        print("[currFileName]:${f.fileName}");
+        print("[fileName]:$fileName");
+        return f.fileName == fileName;
+      });
+      if (file != null) return file.file;
+      return null;
+    }
+    return null;
+  }
+
   File? getChatRecordFile() {
     if (files != null) {
       final chatRecords = files!.where((v) => v.fileType == "txt");
