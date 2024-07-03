@@ -20,6 +20,8 @@ FileInfo _$FileInfoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FileInfo {
+  @FileConverter()
+  File get file => throw _privateConstructorUsedError;
   String get fileName => throw _privateConstructorUsedError;
   String get fileType => throw _privateConstructorUsedError;
   DateTime get lastAccessedAt => throw _privateConstructorUsedError;
@@ -37,7 +39,8 @@ abstract class $FileInfoCopyWith<$Res> {
       _$FileInfoCopyWithImpl<$Res, FileInfo>;
   @useResult
   $Res call(
-      {String fileName,
+      {@FileConverter() File file,
+      String fileName,
       String fileType,
       DateTime lastAccessedAt,
       DateTime lastModifiedAt});
@@ -56,12 +59,17 @@ class _$FileInfoCopyWithImpl<$Res, $Val extends FileInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? file = null,
     Object? fileName = null,
     Object? fileType = null,
     Object? lastAccessedAt = null,
     Object? lastModifiedAt = null,
   }) {
     return _then(_value.copyWith(
+      file: null == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as File,
       fileName: null == fileName
           ? _value.fileName
           : fileName // ignore: cast_nullable_to_non_nullable
@@ -91,7 +99,8 @@ abstract class _$$FileInfoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String fileName,
+      {@FileConverter() File file,
+      String fileName,
       String fileType,
       DateTime lastAccessedAt,
       DateTime lastModifiedAt});
@@ -108,12 +117,17 @@ class __$$FileInfoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? file = null,
     Object? fileName = null,
     Object? fileType = null,
     Object? lastAccessedAt = null,
     Object? lastModifiedAt = null,
   }) {
     return _then(_$FileInfoImpl(
+      file: null == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as File,
       fileName: null == fileName
           ? _value.fileName
           : fileName // ignore: cast_nullable_to_non_nullable
@@ -138,7 +152,8 @@ class __$$FileInfoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
   const _$FileInfoImpl(
-      {required this.fileName,
+      {@FileConverter() required this.file,
+      required this.fileName,
       required this.fileType,
       required this.lastAccessedAt,
       required this.lastModifiedAt});
@@ -146,6 +161,9 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
   factory _$FileInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$FileInfoImplFromJson(json);
 
+  @override
+  @FileConverter()
+  final File file;
   @override
   final String fileName;
   @override
@@ -157,7 +175,7 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FileInfo(fileName: $fileName, fileType: $fileType, lastAccessedAt: $lastAccessedAt, lastModifiedAt: $lastModifiedAt)';
+    return 'FileInfo(file: $file, fileName: $fileName, fileType: $fileType, lastAccessedAt: $lastAccessedAt, lastModifiedAt: $lastModifiedAt)';
   }
 
   @override
@@ -165,6 +183,7 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'FileInfo'))
+      ..add(DiagnosticsProperty('file', file))
       ..add(DiagnosticsProperty('fileName', fileName))
       ..add(DiagnosticsProperty('fileType', fileType))
       ..add(DiagnosticsProperty('lastAccessedAt', lastAccessedAt))
@@ -176,6 +195,7 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FileInfoImpl &&
+            (identical(other.file, file) || other.file == file) &&
             (identical(other.fileName, fileName) ||
                 other.fileName == fileName) &&
             (identical(other.fileType, fileType) ||
@@ -189,7 +209,7 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, fileName, fileType, lastAccessedAt, lastModifiedAt);
+      runtimeType, file, fileName, fileType, lastAccessedAt, lastModifiedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -207,7 +227,8 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
 
 abstract class _FileInfo implements FileInfo {
   const factory _FileInfo(
-      {required final String fileName,
+      {@FileConverter() required final File file,
+      required final String fileName,
       required final String fileType,
       required final DateTime lastAccessedAt,
       required final DateTime lastModifiedAt}) = _$FileInfoImpl;
@@ -215,6 +236,9 @@ abstract class _FileInfo implements FileInfo {
   factory _FileInfo.fromJson(Map<String, dynamic> json) =
       _$FileInfoImpl.fromJson;
 
+  @override
+  @FileConverter()
+  File get file;
   @override
   String get fileName;
   @override

@@ -1,9 +1,11 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'package:whats_pie/models/file_info.dart';
 import 'package:whats_pie/models/directory_info.dart';
 import 'package:resizable_widget/resizable_widget.dart';
+import 'package:whats_pie/bloc/chat_reader_bloc/chat_reader_bloc.dart';
+import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/chat_record_previewer.dart';
 import 'package:whats_pie/pages/chat_record_preview_page/directory_structure_previewer/directory_structure_previewer.dart';
 
 class PreviewInfo {
@@ -11,11 +13,13 @@ class PreviewInfo {
   final Widget child;
   final DirectoryInfo directoryInfo;
   final List<double> widthPercentages;
+  final ChatReaderBloc chatReaderBloc;
 
   PreviewInfo._({
     required this.width,
     required this.child,
     required this.directoryInfo,
+    required this.chatReaderBloc,
     required this.widthPercentages,
   });
 
@@ -41,6 +45,7 @@ class PreviewInfo {
     return PreviewInfo._(
       width: width,
       directoryInfo: directoryInfo,
+      chatReaderBloc: chatReaderBloc,
       widthPercentages: newWidthPercentages,
       child: ResizableWidget(
         key: UniqueKey(),
@@ -52,7 +57,7 @@ class PreviewInfo {
             lastAccessedAtField: fileFields.lastAccessedAtField,
             lastModifiedAtField: fileFields.lastModifiedAtField,
           ),
-          Container(color: Colors.blue)
+          ChatRecordPreviewer(chatReaderBloc: chatReaderBloc),
         ],
       ),
     );
@@ -65,8 +70,12 @@ class PreviewInfo {
     final newWidthPercentages = _calWidthPercentages(width);
     final fileFields = _getFileFields(directoryInfo.files);
 
+    final chatReaderBloc = ChatReaderBloc(directoryInfo.getChatRecordFile());
+    chatReaderBloc.add(ChatReaderStart());
+
     return PreviewInfo._(
       width: width,
+      chatReaderBloc: chatReaderBloc,
       widthPercentages: newWidthPercentages,
       directoryInfo: directoryInfo,
       child: ResizableWidget(
@@ -79,7 +88,7 @@ class PreviewInfo {
             lastAccessedAtField: fileFields.lastAccessedAtField,
             lastModifiedAtField: fileFields.lastModifiedAtField,
           ),
-          Container(color: Colors.blue)
+          ChatRecordPreviewer(chatReaderBloc: chatReaderBloc),
         ],
       ),
     );

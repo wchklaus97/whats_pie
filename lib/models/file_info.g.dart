@@ -8,6 +8,7 @@ part of 'file_info.dart';
 
 _$FileInfoImpl _$$FileInfoImplFromJson(Map<String, dynamic> json) =>
     _$FileInfoImpl(
+      file: const FileConverter().fromJson(json['file'] as String),
       fileName: json['fileName'] as String,
       fileType: json['fileType'] as String,
       lastAccessedAt: DateTime.parse(json['lastAccessedAt'] as String),
@@ -16,6 +17,7 @@ _$FileInfoImpl _$$FileInfoImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$FileInfoImplToJson(_$FileInfoImpl instance) =>
     <String, dynamic>{
+      'file': const FileConverter().toJson(instance.file),
       'fileName': instance.fileName,
       'fileType': instance.fileType,
       'lastAccessedAt': instance.lastAccessedAt.toIso8601String(),

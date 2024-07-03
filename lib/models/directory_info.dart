@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
 import 'package:whats_pie/models/file_info.dart';
@@ -19,6 +20,16 @@ class DirectoryInfo with _$DirectoryInfo {
 }
 
 extension DirectoryInfoExtensions on DirectoryInfo {
+  File? getChatRecordFile() {
+    if (files != null) {
+      final chatRecords = files!.where((v) => v.fileType == "txt");
+      if (chatRecords.length == 1) {
+        return chatRecords.first.file;
+      }
+    }
+    return null;
+  }
+
   Either<bool, String> getDirectoryStatus() {
     if (files == null && directories == null) {
       return const Right(

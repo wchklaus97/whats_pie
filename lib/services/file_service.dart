@@ -38,6 +38,7 @@ class FileService {
         files.add(FileInfo(
           fileName: fileName,
           fileType: fileType,
+          file: entity.absolute,
           lastAccessedAt: lastAccessedAt,
           lastModifiedAt: lastModifiedAt,
         ));
