@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:whats_pie/common/bubble/msg_bubble.dart';
 
 class MsgWidget extends StatelessWidget {
-  final List<String>? msg;
+  final List<String>? msgs;
   final String? dateTime;
   final bool isLastMsg;
   final bool hasTopPadding;
   final bool isSelectedUser;
   const MsgWidget({
     super.key,
-    required this.msg,
+    required this.msgs,
     required this.dateTime,
     required this.isSelectedUser,
     this.isLastMsg = false,
@@ -20,16 +20,16 @@ class MsgWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-          top: hasTopPadding ? 42.0 : 2.0,
-          bottom: 2.0 + (isLastMsg ? 20.0 : 0.0)),
+          top: hasTopPadding ? 42.0 : 8.0,
+          bottom: 6.0 + (isLastMsg ? 20.0 : 0.0)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          msg != null
+          msgs != null
               ? MsgBubble(
                   delivered: true,
                   isSender: isSelectedUser,
-                  text: msg.toString(),
+                  text: msgs!.join('\n').toString(),
                   color: isSelectedUser
                       ? const Color.fromARGB(255, 15, 190, 91)
                       : Colors.white,
@@ -60,7 +60,7 @@ class MsgWidget extends StatelessWidget {
                         child: Text(
                           dateTime!,
                           style: TextStyle(
-                            fontSize: 12.0,
+                            fontSize: 14.0,
                             color: isSelectedUser ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w500,
                           ),

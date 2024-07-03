@@ -9,7 +9,7 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
   final DirectoryInfo? directoryInfo;
 
   final attachmentRegex = RegExp(r'\b(.*?)\s\(附件檔案\)');
-  final dateTimeRegex = RegExp(r'^(\d{2}/\d{1}/\d{4}) (\d{2}:\d{2}) - ');
+  final dateTimeRegex = RegExp(r'^(\d{1,2}/\d{1,2}/\d{4}) (\d{2}:\d{2}) - ');
   final msgRegex =
       RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{2}):(\d{2})\s-\s(.*)');
 
@@ -84,12 +84,14 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
 
     if (file != null) {
       List<String> lines = file!.readAsLinesSync();
+
       for (int i = 0; i < lines.length; i++) {
         Match? match = dateTimeRegex.firstMatch(lines[i]);
 
         if (match != null) {
           ChatMsg? chatMsg = await _extractMsgInfoFromString(lines[i]);
           if (chatMsg != null) {
+            chatMsg.sender != null ? users.add(chatMsg.sender!) : null;
             chatMsgs.add(chatMsg);
           }
         } else {

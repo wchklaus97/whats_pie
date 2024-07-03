@@ -24,7 +24,6 @@ class ChatListWidgetState extends State<ChatListWidget> {
     int from = page * pageSize;
     int to = min(_contlr.totalItemCount, from + pageSize);
     if (from >= _contlr.totalItemCount) {
-      // Handle the case where the from index is out of range
       return [];
     }
 
@@ -77,15 +76,24 @@ class ChatListWidgetState extends State<ChatListWidget> {
             final isLastMsg = index == widget.chatInfo.chatMsg.length - 1;
             final chatMsg = widget.chatInfo.chatMsg[index];
             if (chatMsg.sender == null) {
+              if (chatMsg.msgs!.length > 1) {
+                return Column(
+                  children: chatMsg.msgs!
+                      .map((msg) => SysMsgBubble(
+                          isFirstMsg:
+                              isFirstMsg && chatMsg.msgs!.indexOf(msg) == 0,
+                          msg: chatMsg.msgs.toString()))
+                      .toList(),
+                );
+              }
               return SysMsgBubble(
-                  isFirstMsg: isFirstMsg, msg: chatMsg.msgs.toString());
+                  isFirstMsg: isFirstMsg, msg: chatMsg.msgs!.first);
             }
-
             return MsgWidget(
               isLastMsg: isLastMsg,
               dateTime: chatMsg.dateTime,
               hasTopPadding: isFirstMsg,
-              msg: chatMsg.msgs,
+              msgs: chatMsg.msgs,
               isSelectedUser: chatMsg.sender == widget.chatInfo.selectedUser,
             );
           },
