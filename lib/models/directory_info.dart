@@ -25,9 +25,6 @@ extension DirectoryInfoExtensions on DirectoryInfo {
     if (files != null) {
       final file = files!.firstWhereOrNull((f) {
         if (f.fileType == 'txt') return false;
-
-        print("[currFileName]:${f.fileName}");
-        print("[fileName]:$fileName");
         return f.fileName == fileName;
       });
       if (file != null) return file.file;

@@ -107,7 +107,7 @@ class CustomHugeListView<T> extends StatefulWidget {
   final LruMap<int, HugeListViewPageResult<T>>? lruMap;
 
   const CustomHugeListView({
-    Key? key,
+    super.key,
     @Deprecated('Use `scrollController` instead.') this.controller,
     this.scrollController,
     this.listViewController,
@@ -136,8 +136,7 @@ class CustomHugeListView<T> extends StatefulWidget {
     this.lruMap,
     required this.indexChanged,
   })  : assert(pageSize > 0),
-        assert(velocityThreshold >= 0),
-        super(key: key);
+        assert(velocityThreshold >= 0);
 
   @override
   HugeListViewState<T> createState() => HugeListViewState<T>();
@@ -207,14 +206,18 @@ class HugeListViewState<T> extends State<CustomHugeListView<T>> {
 
   @override
   Widget build(BuildContext context) {
-    if (error != null && widget.errorBuilder != null)
+    if (error != null && widget.errorBuilder != null) {
       return widget.errorBuilder!(context, error);
-    if (totalItemCount == -1 && widget.waitBuilder != null)
+    }
+    if (totalItemCount == -1 && widget.waitBuilder != null) {
       return widget.waitBuilder!(context);
-    if (totalItemCount == 0 && widget.emptyBuilder != null)
+    }
+    if (totalItemCount == 0 && widget.emptyBuilder != null) {
       return widget.emptyBuilder!(context);
-    if (totalItemCount == 0 && widget.emptyResultBuilder != null)
+    }
+    if (totalItemCount == 0 && widget.emptyResultBuilder != null) {
       return widget.emptyResultBuilder!(context);
+    }
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -320,10 +323,11 @@ class HugeListViewState<T> extends State<CustomHugeListView<T>> {
     if (!Scrollable.recommendDeferredLoadingForContext(context)) {
       _frameCallbackInProgress = false;
       _doReload(-1);
-    } else
+    } else {
       SchedulerBinding.instance.scheduleFrameCallback(
           (d) => _deferredReload(context),
           rescheduling: true);
+    }
   }
 
   void _doReload(int index) {
@@ -346,9 +350,7 @@ class HugeListViewState<T> extends State<CustomHugeListView<T>> {
 class _MaxVelocityPhysics extends AlwaysScrollableScrollPhysics {
   final double velocityThreshold;
 
-  const _MaxVelocityPhysics(
-      {required this.velocityThreshold, ScrollPhysics? parent})
-      : super(parent: parent);
+  const _MaxVelocityPhysics({required this.velocityThreshold, super.parent});
 
   @override
   bool recommendDeferredLoading(
