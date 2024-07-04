@@ -29,8 +29,8 @@ _$ChatMsgImpl _$$ChatMsgImplFromJson(Map<String, dynamic> json) =>
       msgs: (json['msgs'] as List<dynamic>?)?.map((e) => e as String).toList(),
       attachmentName: json['attachmentName'] as String?,
       isAttachmentValid: json['isAttachmentValid'] as bool?,
-      file: _$JsonConverterFromJson<String, File>(
-          json['file'], const FileConverter().fromJson),
+      attachmentFile: _$JsonConverterFromJson<String, File>(
+          json['attachmentFile'], const FileConverter().fromJson),
     );
 
 Map<String, dynamic> _$$ChatMsgImplToJson(_$ChatMsgImpl instance) =>
@@ -40,8 +40,8 @@ Map<String, dynamic> _$$ChatMsgImplToJson(_$ChatMsgImpl instance) =>
       'msgs': instance.msgs,
       'attachmentName': instance.attachmentName,
       'isAttachmentValid': instance.isAttachmentValid,
-      'file': _$JsonConverterToJson<String, File>(
-          instance.file, const FileConverter().toJson),
+      'attachmentFile': _$JsonConverterToJson<String, File>(
+          instance.attachmentFile, const FileConverter().toJson),
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(

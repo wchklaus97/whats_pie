@@ -67,7 +67,7 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
       }
     }
     return ChatMsg(
-      file: file,
+      attachmentFile: isAttachmentValid ? attachmentFile : null,
       sender: sender,
       attachmentName: attachmentName,
       msgs: msg != null ? [msg] : [],
@@ -103,7 +103,7 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
           chatMsgs.add(
             ChatMsg(
               msgs: msgs,
-              file: lastChatMsg.file,
+              attachmentFile: lastChatMsg.attachmentFile,
               sender: lastChatMsg.sender,
               dateTime: lastChatMsg.dateTime,
               attachmentName: lastChatMsg.attachmentName,

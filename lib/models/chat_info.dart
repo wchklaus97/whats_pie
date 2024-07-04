@@ -25,7 +25,7 @@ class ChatMsg with _$ChatMsg {
     required List<String>? msgs,
     required String? attachmentName,
     required bool? isAttachmentValid,
-    @FileConverter() required File? file,
+    @FileConverter() required File? attachmentFile,
   }) = _ChatMsg;
 
   factory ChatMsg.fromJson(Map<String, Object?> json) =>

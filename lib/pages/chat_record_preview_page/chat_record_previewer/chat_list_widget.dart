@@ -6,6 +6,7 @@ import 'package:whats_pie/common/bubble/sys_msg_bubble.dart';
 import 'package:whats_pie/common/listview/custom_huge_list.dart';
 import 'package:whats_pie/bloc/chat_reader_bloc/chat_reader_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attchment_widget.dart';
 import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/msg_widget.dart';
 
 class ChatListWidget extends StatefulWidget {
@@ -177,6 +178,19 @@ class ChatListWidgetState extends State<ChatListWidget> {
                       }
                       return SysMsgBubble(
                           isFirstMsg: isFirstMsg, msg: chatMsg.msgs!.first);
+                    }
+                    if (chatMsg.isAttachmentValid == true &&
+                        chatMsg.attachmentName != null &&
+                        chatMsg.attachmentFile != null) {
+                      return AttachmentWidget(
+                        isLastMsg: isLastMsg,
+                        dateTime: chatMsg.dateTime,
+                        attachmentName: chatMsg.attachmentName!,
+                        attachmentFile: chatMsg.attachmentFile!,
+                        hasTopPadding: isFirstMsg,
+                        isSelectedUser:
+                            chatMsg.sender == widget.chatInfo.selectedUser,
+                      );
                     }
                     return MsgWidget(
                       isLastMsg: isLastMsg,
