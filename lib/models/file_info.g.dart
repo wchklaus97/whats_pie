@@ -13,6 +13,9 @@ _$FileInfoImpl _$$FileInfoImplFromJson(Map<String, dynamic> json) =>
       fileType: json['fileType'] as String,
       lastAccessedAt: DateTime.parse(json['lastAccessedAt'] as String),
       lastModifiedAt: DateTime.parse(json['lastModifiedAt'] as String),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$FileInfoImplToJson(_$FileInfoImpl instance) =>
@@ -22,4 +25,5 @@ Map<String, dynamic> _$$FileInfoImplToJson(_$FileInfoImpl instance) =>
       'fileType': instance.fileType,
       'lastAccessedAt': instance.lastAccessedAt.toIso8601String(),
       'lastModifiedAt': instance.lastModifiedAt.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
     };

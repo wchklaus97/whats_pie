@@ -27,6 +27,8 @@ _$ChatMsgImpl _$$ChatMsgImplFromJson(Map<String, dynamic> json) =>
       dateTime: json['dateTime'] as String?,
       sender: json['sender'] as String?,
       msgs: (json['msgs'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      attachmentType:
+          $enumDecodeNullable(_$AttachmentTypeEnumMap, json['attachmentType']),
       attachmentName: json['attachmentName'] as String?,
       isAttachmentValid: json['isAttachmentValid'] as bool?,
       attachmentFile: _$JsonConverterFromJson<String, File>(
@@ -38,11 +40,18 @@ Map<String, dynamic> _$$ChatMsgImplToJson(_$ChatMsgImpl instance) =>
       'dateTime': instance.dateTime,
       'sender': instance.sender,
       'msgs': instance.msgs,
+      'attachmentType': _$AttachmentTypeEnumMap[instance.attachmentType],
       'attachmentName': instance.attachmentName,
       'isAttachmentValid': instance.isAttachmentValid,
       'attachmentFile': _$JsonConverterToJson<String, File>(
           instance.attachmentFile, const FileConverter().toJson),
     };
+
+const _$AttachmentTypeEnumMap = {
+  AttachmentType.media: 'media',
+  AttachmentType.doc: 'doc',
+  AttachmentType.vedio: 'vedio',
+};
 
 Value? _$JsonConverterFromJson<Json, Value>(
   Object? json,

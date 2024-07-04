@@ -217,6 +217,7 @@ mixin _$ChatMsg {
   String? get dateTime => throw _privateConstructorUsedError;
   String? get sender => throw _privateConstructorUsedError;
   List<String>? get msgs => throw _privateConstructorUsedError;
+  AttachmentType? get attachmentType => throw _privateConstructorUsedError;
   String? get attachmentName => throw _privateConstructorUsedError;
   bool? get isAttachmentValid => throw _privateConstructorUsedError;
   @FileConverter()
@@ -236,6 +237,7 @@ abstract class $ChatMsgCopyWith<$Res> {
       {String? dateTime,
       String? sender,
       List<String>? msgs,
+      AttachmentType? attachmentType,
       String? attachmentName,
       bool? isAttachmentValid,
       @FileConverter() File? attachmentFile});
@@ -257,6 +259,7 @@ class _$ChatMsgCopyWithImpl<$Res, $Val extends ChatMsg>
     Object? dateTime = freezed,
     Object? sender = freezed,
     Object? msgs = freezed,
+    Object? attachmentType = freezed,
     Object? attachmentName = freezed,
     Object? isAttachmentValid = freezed,
     Object? attachmentFile = freezed,
@@ -274,6 +277,10 @@ class _$ChatMsgCopyWithImpl<$Res, $Val extends ChatMsg>
           ? _value.msgs
           : msgs // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      attachmentType: freezed == attachmentType
+          ? _value.attachmentType
+          : attachmentType // ignore: cast_nullable_to_non_nullable
+              as AttachmentType?,
       attachmentName: freezed == attachmentName
           ? _value.attachmentName
           : attachmentName // ignore: cast_nullable_to_non_nullable
@@ -301,6 +308,7 @@ abstract class _$$ChatMsgImplCopyWith<$Res> implements $ChatMsgCopyWith<$Res> {
       {String? dateTime,
       String? sender,
       List<String>? msgs,
+      AttachmentType? attachmentType,
       String? attachmentName,
       bool? isAttachmentValid,
       @FileConverter() File? attachmentFile});
@@ -320,6 +328,7 @@ class __$$ChatMsgImplCopyWithImpl<$Res>
     Object? dateTime = freezed,
     Object? sender = freezed,
     Object? msgs = freezed,
+    Object? attachmentType = freezed,
     Object? attachmentName = freezed,
     Object? isAttachmentValid = freezed,
     Object? attachmentFile = freezed,
@@ -337,6 +346,10 @@ class __$$ChatMsgImplCopyWithImpl<$Res>
           ? _value._msgs
           : msgs // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      attachmentType: freezed == attachmentType
+          ? _value.attachmentType
+          : attachmentType // ignore: cast_nullable_to_non_nullable
+              as AttachmentType?,
       attachmentName: freezed == attachmentName
           ? _value.attachmentName
           : attachmentName // ignore: cast_nullable_to_non_nullable
@@ -360,6 +373,7 @@ class _$ChatMsgImpl implements _ChatMsg {
       {required this.dateTime,
       required this.sender,
       required final List<String>? msgs,
+      required this.attachmentType,
       required this.attachmentName,
       required this.isAttachmentValid,
       @FileConverter() required this.attachmentFile})
@@ -383,6 +397,8 @@ class _$ChatMsgImpl implements _ChatMsg {
   }
 
   @override
+  final AttachmentType? attachmentType;
+  @override
   final String? attachmentName;
   @override
   final bool? isAttachmentValid;
@@ -392,7 +408,7 @@ class _$ChatMsgImpl implements _ChatMsg {
 
   @override
   String toString() {
-    return 'ChatMsg(dateTime: $dateTime, sender: $sender, msgs: $msgs, attachmentName: $attachmentName, isAttachmentValid: $isAttachmentValid, attachmentFile: $attachmentFile)';
+    return 'ChatMsg(dateTime: $dateTime, sender: $sender, msgs: $msgs, attachmentType: $attachmentType, attachmentName: $attachmentName, isAttachmentValid: $isAttachmentValid, attachmentFile: $attachmentFile)';
   }
 
   @override
@@ -404,6 +420,8 @@ class _$ChatMsgImpl implements _ChatMsg {
                 other.dateTime == dateTime) &&
             (identical(other.sender, sender) || other.sender == sender) &&
             const DeepCollectionEquality().equals(other._msgs, _msgs) &&
+            (identical(other.attachmentType, attachmentType) ||
+                other.attachmentType == attachmentType) &&
             (identical(other.attachmentName, attachmentName) ||
                 other.attachmentName == attachmentName) &&
             (identical(other.isAttachmentValid, isAttachmentValid) ||
@@ -419,6 +437,7 @@ class _$ChatMsgImpl implements _ChatMsg {
       dateTime,
       sender,
       const DeepCollectionEquality().hash(_msgs),
+      attachmentType,
       attachmentName,
       isAttachmentValid,
       attachmentFile);
@@ -442,6 +461,7 @@ abstract class _ChatMsg implements ChatMsg {
       {required final String? dateTime,
       required final String? sender,
       required final List<String>? msgs,
+      required final AttachmentType? attachmentType,
       required final String? attachmentName,
       required final bool? isAttachmentValid,
       @FileConverter() required final File? attachmentFile}) = _$ChatMsgImpl;
@@ -454,6 +474,8 @@ abstract class _ChatMsg implements ChatMsg {
   String? get sender;
   @override
   List<String>? get msgs;
+  @override
+  AttachmentType? get attachmentType;
   @override
   String? get attachmentName;
   @override

@@ -14,8 +14,19 @@ class FileInfo with _$FileInfo {
     required String fileType,
     required DateTime lastAccessedAt,
     required DateTime lastModifiedAt,
+    DateTime? createdAt,
   }) = _FileInfo;
 
   factory FileInfo.fromJson(Map<String, Object?> json) =>
       _$FileInfoFromJson(json);
+}
+
+extension FileInfoExtensions on FileInfo {
+  FileInfo updateCreatedAt(DateTime dateTime) => FileInfo(
+      file: file,
+      fileName: fileName,
+      fileType: fileType,
+      createdAt: dateTime,
+      lastAccessedAt: lastAccessedAt,
+      lastModifiedAt: lastModifiedAt);
 }

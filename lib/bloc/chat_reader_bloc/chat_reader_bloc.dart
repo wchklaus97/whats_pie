@@ -1,20 +1,22 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:whats_pie/common/enum.dart';
 import 'package:whats_pie/models/chat_info.dart';
 import 'package:whats_pie/models/directory_info.dart';
 import 'package:whats_pie/bloc/chat_reader_bloc/chat_reader_state.dart';
 
 class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
   final File? file;
-  final DirectoryInfo? directoryInfo;
+  static DirectoryInfo? _directoryInfo;
 
   final attachmentRegex = RegExp(r'\b(.*?)\s\(附件檔案\)');
   final dateTimeRegex = RegExp(r'^(\d{1,2}/\d{1,2}/\d{4}) (\d{2}:\d{2}) - ');
   final msgRegex =
       RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{2}):(\d{2})\s-\s(.*)');
 
-  ChatReaderBloc(this.file, this.directoryInfo)
+  ChatReaderBloc(this.file, DirectoryInfo directoryInfo)
       : super(const ChatReaderState.idle()) {
+    _directoryInfo = directoryInfo;
     on<ChatReaderStart>(_onStart);
     on<ChatReaderSwitch>(_onSwitch);
   }
@@ -23,30 +25,43 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
     final Match? match = attachmentRegex.firstMatch(value);
     if (match != null) {
       final String extractedName = match.group(1)!.trim();
-      final List<String> nameParts = extractedName.split(" ");
-      for (final part in nameParts) {
-        if (part.contains('.webp')) {
-          return part;
-        }
-      }
+      final isFileNameValid = _directoryInfo!.isFileNameValid(extractedName);
+      if (isFileNameValid == true) return extractedName;
+      return null;
     }
     return '';
   }
 
+  AttachmentType? _getAttachmentTypeFromName(String value) {
+    final type = value.split('.').last;
+    switch (type) {
+      case "webp":
+      case "png":
+      case "jpeg":
+      case "jpg":
+      case "gif":
+        return AttachmentType.media;
+      case "pdf":
+        return AttachmentType.doc;
+      default:
+        return null;
+    }
+  }
+
   Future<ChatMsg?> _extractMsgInfoFromString(String value) async {
     Iterable<Match> matches = msgRegex.allMatches(value);
-    String? day, month, year, hour, minute;
+    int? day, month, year, hour, minute;
     String? sender;
     String? msg;
     String? attachmentName;
     File? attachmentFile;
     bool isAttachmentValid = false;
     for (Match x in matches) {
-      day = x.group(1);
-      month = x.group(2);
-      year = x.group(3);
-      hour = x.group(4);
-      minute = x.group(5);
+      day = int.tryParse(x.group(1)!);
+      month = int.parse(x.group(2)!);
+      year = int.parse(x.group(3)!);
+      hour = int.parse(x.group(4)!);
+      minute = int.parse(x.group(5)!);
       msg = x.group(6);
       if (msg != null && msg.contains(":")) {
         int colonIndex = msg.indexOf(":");
@@ -60,19 +75,30 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
       }
     }
 
-    if (directoryInfo != null && attachmentName != null) {
-      attachmentFile = directoryInfo!.getFileWithName(attachmentName);
+    if (_directoryInfo != null && attachmentName != null) {
+      attachmentFile = _directoryInfo!.getFileWithName(attachmentName);
       if (attachmentFile != null) {
         isAttachmentValid = await attachmentFile.exists();
+        if (isAttachmentValid) {
+          final newDirectoryInfo = _directoryInfo!.updateFileInfo(
+              fileName: attachmentName,
+              createdAt: DateTime(year!, month!, day!, hour!, minute!));
+          if (newDirectoryInfo != null) {
+            _directoryInfo = newDirectoryInfo;
+          }
+        }
       }
     }
     return ChatMsg(
-      attachmentFile: isAttachmentValid ? attachmentFile : null,
       sender: sender,
       attachmentName: attachmentName,
       msgs: msg != null ? [msg] : [],
       dateTime: "$day/$month/$year $hour:$minute",
       isAttachmentValid: isAttachmentValid,
+      attachmentFile: isAttachmentValid ? attachmentFile : null,
+      attachmentType: isAttachmentValid
+          ? _getAttachmentTypeFromName(attachmentName!)
+          : null,
     );
   }
 
@@ -104,6 +130,7 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
             ChatMsg(
               msgs: msgs,
               attachmentFile: lastChatMsg.attachmentFile,
+              attachmentType: lastChatMsg.attachmentType,
               sender: lastChatMsg.sender,
               dateTime: lastChatMsg.dateTime,
               attachmentName: lastChatMsg.attachmentName,
@@ -113,6 +140,7 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
         }
       }
     }
+    _directoryInfo = _directoryInfo!.sortFiles();
     if (chatMsgs.isNotEmpty) {
       emit(
         ChatReaderState.complete(

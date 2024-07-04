@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:whats_pie/common/enum.dart';
 import 'package:whats_pie/models/file_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -23,6 +24,7 @@ class ChatMsg with _$ChatMsg {
     required String? dateTime,
     required String? sender,
     required List<String>? msgs,
+    required AttachmentType? attachmentType,
     required String? attachmentName,
     required bool? isAttachmentValid,
     @FileConverter() required File? attachmentFile,

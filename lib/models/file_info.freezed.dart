@@ -26,6 +26,7 @@ mixin _$FileInfo {
   String get fileType => throw _privateConstructorUsedError;
   DateTime get lastAccessedAt => throw _privateConstructorUsedError;
   DateTime get lastModifiedAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $FileInfoCopyWith<$Res> {
       String fileName,
       String fileType,
       DateTime lastAccessedAt,
-      DateTime lastModifiedAt});
+      DateTime lastModifiedAt,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$FileInfoCopyWithImpl<$Res, $Val extends FileInfo>
     Object? fileType = null,
     Object? lastAccessedAt = null,
     Object? lastModifiedAt = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       file: null == file
@@ -86,6 +89,10 @@ class _$FileInfoCopyWithImpl<$Res, $Val extends FileInfo>
           ? _value.lastModifiedAt
           : lastModifiedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -103,7 +110,8 @@ abstract class _$$FileInfoImplCopyWith<$Res>
       String fileName,
       String fileType,
       DateTime lastAccessedAt,
-      DateTime lastModifiedAt});
+      DateTime lastModifiedAt,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -122,6 +130,7 @@ class __$$FileInfoImplCopyWithImpl<$Res>
     Object? fileType = null,
     Object? lastAccessedAt = null,
     Object? lastModifiedAt = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_$FileInfoImpl(
       file: null == file
@@ -144,6 +153,10 @@ class __$$FileInfoImplCopyWithImpl<$Res>
           ? _value.lastModifiedAt
           : lastModifiedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -156,7 +169,8 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
       required this.fileName,
       required this.fileType,
       required this.lastAccessedAt,
-      required this.lastModifiedAt});
+      required this.lastModifiedAt,
+      this.createdAt});
 
   factory _$FileInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$FileInfoImplFromJson(json);
@@ -172,10 +186,12 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
   final DateTime lastAccessedAt;
   @override
   final DateTime lastModifiedAt;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FileInfo(file: $file, fileName: $fileName, fileType: $fileType, lastAccessedAt: $lastAccessedAt, lastModifiedAt: $lastModifiedAt)';
+    return 'FileInfo(file: $file, fileName: $fileName, fileType: $fileType, lastAccessedAt: $lastAccessedAt, lastModifiedAt: $lastModifiedAt, createdAt: $createdAt)';
   }
 
   @override
@@ -187,7 +203,8 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
       ..add(DiagnosticsProperty('fileName', fileName))
       ..add(DiagnosticsProperty('fileType', fileType))
       ..add(DiagnosticsProperty('lastAccessedAt', lastAccessedAt))
-      ..add(DiagnosticsProperty('lastModifiedAt', lastModifiedAt));
+      ..add(DiagnosticsProperty('lastModifiedAt', lastModifiedAt))
+      ..add(DiagnosticsProperty('createdAt', createdAt));
   }
 
   @override
@@ -203,13 +220,15 @@ class _$FileInfoImpl with DiagnosticableTreeMixin implements _FileInfo {
             (identical(other.lastAccessedAt, lastAccessedAt) ||
                 other.lastAccessedAt == lastAccessedAt) &&
             (identical(other.lastModifiedAt, lastModifiedAt) ||
-                other.lastModifiedAt == lastModifiedAt));
+                other.lastModifiedAt == lastModifiedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, file, fileName, fileType, lastAccessedAt, lastModifiedAt);
+  int get hashCode => Object.hash(runtimeType, file, fileName, fileType,
+      lastAccessedAt, lastModifiedAt, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -231,7 +250,8 @@ abstract class _FileInfo implements FileInfo {
       required final String fileName,
       required final String fileType,
       required final DateTime lastAccessedAt,
-      required final DateTime lastModifiedAt}) = _$FileInfoImpl;
+      required final DateTime lastModifiedAt,
+      final DateTime? createdAt}) = _$FileInfoImpl;
 
   factory _FileInfo.fromJson(Map<String, dynamic> json) =
       _$FileInfoImpl.fromJson;
@@ -247,6 +267,8 @@ abstract class _FileInfo implements FileInfo {
   DateTime get lastAccessedAt;
   @override
   DateTime get lastModifiedAt;
+  @override
+  DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$FileInfoImplCopyWith<_$FileInfoImpl> get copyWith =>

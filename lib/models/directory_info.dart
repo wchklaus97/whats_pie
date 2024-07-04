@@ -33,6 +33,41 @@ extension DirectoryInfoExtensions on DirectoryInfo {
     return null;
   }
 
+  DirectoryInfo sortFiles() {
+    var newFiles = files!.toList();
+    newFiles.removeWhere((file) => file.fileType == 'txt');
+    newFiles.sort((a, b) {
+      return (a.createdAt ?? DateTime.now())
+          .compareTo(b.createdAt ?? DateTime.now());
+    });
+    return DirectoryInfo(name: name, files: newFiles, directories: directories);
+  }
+
+  DirectoryInfo? updateFileInfo(
+      {required String fileName, required DateTime createdAt}) {
+    final fileIndex = files!.indexWhere((file) => file.fileName == fileName);
+    if (fileIndex == -1) return null;
+
+    final file = files![fileIndex];
+    var newFiles = files!.toList();
+    final newFileInfo = file.updateCreatedAt(createdAt);
+    newFiles.removeAt(fileIndex);
+    newFiles.add(newFileInfo);
+    return DirectoryInfo(name: name, files: newFiles, directories: directories);
+  }
+
+  bool isFileNameValid(String fileName) {
+    if (files != null) {
+      final file = files!.firstWhereOrNull((f) {
+        if (f.fileType == 'txt') return false;
+        return f.fileName == fileName;
+      });
+      if (file != null) return true;
+      return false;
+    }
+    return false;
+  }
+
   File? getChatRecordFile() {
     if (files != null) {
       final chatRecords = files!.where((v) => v.fileType == "txt");
