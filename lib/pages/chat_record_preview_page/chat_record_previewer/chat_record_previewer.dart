@@ -26,8 +26,12 @@ class _ChatRecordPreviewerState extends State<ChatRecordPreviewer> {
           reading: (_) => Center(
               child: LoadingAnimationWidget.dotsTriangle(
                   color: Colors.green, size: 44)),
-          complete: (res) => ChatListWidget(chatInfo: res.chatInfo),
-          userSwitched: (res) => ChatListWidget(chatInfo: res.chatInfo),
+          complete: (res) => ChatListWidget(
+            chatInfo: res.chatInfo,
+            chatReaderBloc: widget.chatReaderBloc,
+          ),
+          userSwitched: (res) => ChatListWidget(
+              chatInfo: res.chatInfo, chatReaderBloc: widget.chatReaderBloc),
           error: (v) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

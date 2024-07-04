@@ -130,7 +130,14 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
 
   Future<void> _onSwitch(
       ChatReaderSwitch event, Emitter<ChatReaderState> emit) async {
-    // emit(const ChatReaderState.userSwitched());
+    emit(const ChatReaderState.reading());
+    emit(ChatReaderState.userSwitched(
+      ChatInfo(
+        chatMsg: event.chatInfo.chatMsg,
+        selectedUser: event.user,
+        users: event.chatInfo.users,
+      ),
+    ));
   }
 }
 
@@ -138,4 +145,9 @@ abstract class ChatReaderEvent {}
 
 class ChatReaderStart extends ChatReaderEvent {}
 
-class ChatReaderSwitch extends ChatReaderEvent {}
+class ChatReaderSwitch extends ChatReaderEvent {
+  final String user;
+  final ChatInfo chatInfo;
+
+  ChatReaderSwitch({required this.user, required this.chatInfo});
+}
