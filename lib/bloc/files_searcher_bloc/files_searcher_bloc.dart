@@ -17,9 +17,7 @@ class FilesSearcherBloc extends Bloc<FilesSearcherEvent, FilesSearcherState> {
       FileSearcherStart event, Emitter<FilesSearcherState> emit) async {
     emit(const FilesSearcherState.searching());
     late Either<DirectoryInfo, String> directoryInfoOrError;
-    await Future.delayed(const Duration(milliseconds: 500), () async {
-      directoryInfoOrError = await _fileService.selectFolderAndReadFiles();
-    });
+    directoryInfoOrError = await _fileService.selectFolderAndReadFiles();
     if (directoryInfoOrError.isLeft) {
       late Either<bool, String> validOrError =
           directoryInfoOrError.left.getDirectoryStatus();

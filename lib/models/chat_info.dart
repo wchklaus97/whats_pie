@@ -1,7 +1,6 @@
 import 'dart:io';
-
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:whats_pie/models/file_converter.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'chat_info.freezed.dart';
 part 'chat_info.g.dart';
