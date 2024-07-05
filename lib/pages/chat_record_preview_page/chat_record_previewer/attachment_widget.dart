@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:whats_pie/common/enum.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class AttachmentWidget extends StatelessWidget {
   final File attachmentFile;
@@ -8,15 +10,32 @@ class AttachmentWidget extends StatelessWidget {
   final String? dateTime;
   final bool hasTopPadding;
   final bool isSelectedUser;
+  final AttachmentType attachmentType;
   const AttachmentWidget({
     super.key,
     required this.attachmentFile,
     required this.attachmentName,
+    required this.attachmentType,
     required this.dateTime,
     required this.isSelectedUser,
     this.isLastMsg = false,
     this.hasTopPadding = false,
   });
+
+  Widget attachmentTypeWidget() {
+    switch (attachmentType) {
+      case AttachmentType.media:
+        return SizedBox(
+            width: 180, height: 200, child: Image.file(attachmentFile));
+      case AttachmentType.doc:
+        return ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 240, maxHeight: 280),
+            child: SfPdfViewer.file(attachmentFile));
+      case AttachmentType.vedio:
+      default:
+        return const SizedBox();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +61,7 @@ class AttachmentWidget extends StatelessWidget {
                       : Colors.white,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 6.0, vertical: 2.0),
-                  child: Image.file(attachmentFile, width: 180, height: 200),
+                  child: attachmentTypeWidget(),
                 ),
               ),
             ),
