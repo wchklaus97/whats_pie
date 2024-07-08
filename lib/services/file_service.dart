@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:collection/collection.dart';
 import 'package:path/path.dart';
 import 'package:either_dart/either.dart';
 import 'package:file_picker/file_picker.dart';

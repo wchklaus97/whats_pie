@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whats_pie/pages/home_page/home_page.dart';
 
-void main() => runApp(const App());
+void main() async => runApp(const App());
 
 class App extends StatelessWidget {
   const App({super.key});

@@ -36,6 +36,7 @@ cd WhatsPie
 
 ```
 flutter pub get
+flutter_rust_bridge_codegen generate
 ```
 
 4. Build the application:

@@ -6,7 +6,7 @@ import 'package:whats_pie/common/bubble/sys_msg_bubble.dart';
 import 'package:whats_pie/common/listview/custom_huge_list.dart';
 import 'package:whats_pie/bloc/chat_reader_bloc/chat_reader_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attachment_widget.dart';
+import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attachment_widget/attachment_widget.dart';
 import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/msg_widget.dart';
 
 class ChatListWidget extends StatefulWidget {

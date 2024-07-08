@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:whats_pie/common/enum.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attachment_widget/audio_attachment_widget.dart';
 
 class AttachmentWidget extends StatelessWidget {
   final File attachmentFile;
@@ -31,6 +32,14 @@ class AttachmentWidget extends StatelessWidget {
         return ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 240, maxHeight: 280),
             child: SfPdfViewer.file(attachmentFile));
+      case AttachmentType.voice:
+        return StatefulBuilder(builder: (context, refresh) {
+          return AudioAttachmentWidget(
+            key: UniqueKey(),
+            file: attachmentFile,
+            refresh: () => {refresh(() {})},
+          );
+        });
       case AttachmentType.vedio:
       default:
         return const SizedBox();

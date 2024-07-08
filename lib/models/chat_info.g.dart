@@ -51,6 +51,7 @@ const _$AttachmentTypeEnumMap = {
   AttachmentType.media: 'media',
   AttachmentType.doc: 'doc',
   AttachmentType.vedio: 'vedio',
+  AttachmentType.voice: 'voice',
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

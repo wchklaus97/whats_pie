@@ -1,1 +1,1 @@
-enum AttachmentType { media, doc, vedio }
+enum AttachmentType { media, doc, vedio, voice }
