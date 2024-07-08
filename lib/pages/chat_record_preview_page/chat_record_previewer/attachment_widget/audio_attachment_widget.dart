@@ -16,7 +16,7 @@ class AudioAttachmentWidget extends StatefulWidget {
 
 class AudioAttachmentWidgetState extends State<AudioAttachmentWidget> {
   late Timer _timer;
-  late OggOpusPlayer _oggOpusPlayer;
+  late OggOpusPlayer? _oggOpusPlayer;
   late ValueNotifier<PlayerState> _playerStateNotifi;
   late ValueNotifier<double?> _currPosNotifi;
 
@@ -24,10 +24,6 @@ class AudioAttachmentWidgetState extends State<AudioAttachmentWidget> {
   void initState() {
     _playerStateNotifi = ValueNotifier(PlayerState.idle);
     _currPosNotifi = ValueNotifier(null);
-    _oggOpusPlayer = OggOpusPlayer(widget.file.path);
-    _oggOpusPlayer.state.addListener(() {
-      _playerStateNotifi.value = _oggOpusPlayer.state.value;
-    });
     _playerStateNotifi.addListener(() {
       if (_playerStateNotifi.value == PlayerState.ended) {
         widget.refresh();
@@ -40,8 +36,10 @@ class AudioAttachmentWidgetState extends State<AudioAttachmentWidget> {
   void dispose() {
     super.dispose();
     if (!mounted) {
+      if (_oggOpusPlayer != null) {
+        _oggOpusPlayer!.dispose();
+      }
       _currPosNotifi.dispose();
-      _oggOpusPlayer.dispose();
       _playerStateNotifi.dispose();
     }
   }
@@ -61,7 +59,9 @@ class AudioAttachmentWidgetState extends State<AudioAttachmentWidget> {
                 case PlayerState.playing:
                   return IconButton(
                       onPressed: () {
-                        _oggOpusPlayer.pause();
+                        if (_oggOpusPlayer != null) {
+                          _oggOpusPlayer!.pause();
+                        }
                         _timer.cancel();
                       },
                       icon: const Icon(Icons.pause));
@@ -70,12 +70,18 @@ class AudioAttachmentWidgetState extends State<AudioAttachmentWidget> {
                 default:
                   return IconButton(
                       onPressed: () async {
-                        _oggOpusPlayer.play();
+                        _oggOpusPlayer = OggOpusPlayer(widget.file.path);
+
+                        _oggOpusPlayer!.state.addListener(() {
+                          _playerStateNotifi.value =
+                              _oggOpusPlayer!.state.value;
+                        });
+                        _oggOpusPlayer!.play();
                         _timer = Timer.periodic(
                             const Duration(milliseconds: 10), (timer) {
                           if (mounted) {
                             _currPosNotifi.value =
-                                _oggOpusPlayer.currentPosition;
+                                _oggOpusPlayer!.currentPosition;
                           }
                         });
                       },
