@@ -19,6 +19,7 @@ class App extends StatelessWidget {
         home: const HomePage(title: 'Whats Pie'),
         theme: ThemeData(
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)));
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xFF57db2f))));
   }
 }

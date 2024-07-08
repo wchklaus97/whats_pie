@@ -24,12 +24,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
 
   project.set_dart_entrypoint_arguments(std::move(command_line_arguments));
 
+  // Retrieve the monitor's resolution
+  RECT desktop;
+  const HWND hDesktop = GetDesktopWindow();
+  GetWindowRect(hDesktop, &desktop);
+  int monitorWidth = static_cast<int>((desktop.right - desktop.left) * 0.5);
+  int monitorHeight = static_cast<int>((desktop.bottom - desktop.top) * 0.5);
+
   FlutterWindow window(project);
   Win32Window::Point origin(10, 10);
-  Win32Window::Size size(1280, 720);
-  if (!window.Create(L"whats_pie", origin, size)) {
+  Win32Window::Size size(monitorWidth, monitorHeight);
+  if (!window.Create(L"WhatsPie", origin, size)) {
     return EXIT_FAILURE;
   }
+  // Disable window resizing
+  SetWindowLongPtr(window.GetHandle(), GWL_STYLE, WS_OVERLAPPEDWINDOW & ~WS_SIZEBOX & ~WS_MAXIMIZEBOX);
   window.SetQuitOnClose(true);
 
   ::MSG msg;
