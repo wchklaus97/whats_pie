@@ -52,6 +52,9 @@ dependencies:
   shimmer: ^3.0.0
   syncfusion_flutter_pdfviewer: ^26.1.40
   ogg_opus_player: ^0.7.0
+  media_kit: ^1.1.10                             # Primary package.
+  media_kit_video: ^1.2.4                        # For video rendering.
+  media_kit_libs_video: ^1.0.4                   # Native video dependencies.
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:whats_pie/common/enum.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attachment_widget/audio_attachment_widget.dart';
+import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attachment_widget/video_attachment_widget.dart';
 
 class AttachmentWidget extends StatelessWidget {
   final File attachmentFile;
@@ -41,6 +42,13 @@ class AttachmentWidget extends StatelessWidget {
           );
         });
       case AttachmentType.vedio:
+        return StatefulBuilder(builder: (context, refresh) {
+          return VideoAttachmentWidget(
+            key: UniqueKey(),
+            file: attachmentFile,
+            refresh: () => {refresh(() {})},
+          );
+        });
       default:
         return const SizedBox();
     }

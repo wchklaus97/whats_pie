@@ -45,6 +45,8 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
         return AttachmentType.doc;
       case "opus":
         return AttachmentType.voice;
+      case "mp4":
+        return AttachmentType.vedio;
       default:
         return null;
     }
