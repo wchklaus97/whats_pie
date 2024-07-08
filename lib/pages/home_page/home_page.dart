@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_pie/services/file_service.dart';
 import 'package:whats_pie/common/btn/selected_btn.dart';
+import 'package:whats_pie/pages/home_page/home_body.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:whats_pie/bloc/files_searcher_bloc/files_searcher_bloc.dart';
 import 'package:whats_pie/bloc/files_searcher_bloc/files_searcher_state.dart';
@@ -38,31 +39,42 @@ class _HomePageState extends State<HomePage> {
         bloc: _filesSearcherBloc,
         builder: (context, state) {
           return state.map(
-            idle: (_) => Center(
-              child: SelectedBtn(
-                name: "Select Folder",
-                onPressed: () => _filesSearcherBloc.add(FileSearcherStart()),
-              ),
-            ),
             searching: (_) => Center(
                 child: LoadingAnimationWidget.dotsTriangle(
                     color: Colors.green, size: 44)),
             complete: (res) => ChatRecordPreviewPage(
                 directoryInfo: res.directoryInfo,
                 filesSearcherBloc: _filesSearcherBloc),
-            error: (v) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(v.errorMsg,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10.0),
-                  SelectedBtn(
-                    name: "Choose Another Folder",
-                    onPressed: () =>
-                        _filesSearcherBloc.add(FileSearcherStart()),
-                  ),
-                ],
+            idle: (_) => HomeBodyWidget(
+              statusWidget: Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/app_icon.png", width: 120, height: 120),
+                    const SizedBox(height: 20),
+                    SelectedBtn(
+                        name: "Select Folder",
+                        onPressed: () =>
+                            _filesSearcherBloc.add(FileSearcherStart())),
+                  ],
+                ),
+              ),
+            ),
+            error: (v) => HomeBodyWidget(
+              statusWidget: Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(v.errorMsg,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 10.0),
+                    SelectedBtn(
+                      name: "Choose Another Folder",
+                      onPressed: () =>
+                          _filesSearcherBloc.add(FileSearcherStart()),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
