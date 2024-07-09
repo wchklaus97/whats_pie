@@ -26,15 +26,13 @@ class VideoAttachmentWidgetState extends State<VideoAttachmentWidget> {
 
   @override
   void dispose() {
-    if (!mounted) {
-      _player.dispose();
-    }
+    _player.pause();
+    _player.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: 400, height: 300, child: Video(controller: _videoController));
+    return Video(controller: _videoController);
   }
 }

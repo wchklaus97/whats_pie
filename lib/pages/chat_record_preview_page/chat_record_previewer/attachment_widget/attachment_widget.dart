@@ -1,58 +1,30 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:whats_pie/common/enum.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attachment_widget/audio_attachment_widget.dart';
-import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attachment_widget/video_attachment_widget.dart';
+import 'package:whats_pie/models/directory_info.dart';
+import 'package:whats_pie/pages/chat_record_preview_page/chat_record_previewer/attachment_widget/attachment_media_widget.dart';
 
 class AttachmentWidget extends StatelessWidget {
-  final File attachmentFile;
   final bool isLastMsg;
-  final String attachmentName;
   final String? dateTime;
   final bool hasTopPadding;
+  final File attachmentFile;
   final bool isSelectedUser;
+  final String attachmentName;
+  final DirectoryInfo? directoryInfo;
   final AttachmentType attachmentType;
+
   const AttachmentWidget({
     super.key,
+    required this.dateTime,
     required this.attachmentFile,
     required this.attachmentName,
     required this.attachmentType,
-    required this.dateTime,
     required this.isSelectedUser,
+    required this.directoryInfo,
     this.isLastMsg = false,
     this.hasTopPadding = false,
   });
-
-  Widget attachmentTypeWidget() {
-    switch (attachmentType) {
-      case AttachmentType.media:
-        return SizedBox(
-            width: 180, height: 200, child: Image.file(attachmentFile));
-      case AttachmentType.doc:
-        return ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 240, maxHeight: 280),
-            child: SfPdfViewer.file(attachmentFile));
-      case AttachmentType.voice:
-        return StatefulBuilder(builder: (context, refresh) {
-          return AudioAttachmentWidget(
-            key: UniqueKey(),
-            file: attachmentFile,
-            refresh: () => {refresh(() {})},
-          );
-        });
-      case AttachmentType.vedio:
-        return StatefulBuilder(builder: (context, refresh) {
-          return VideoAttachmentWidget(
-            key: UniqueKey(),
-            file: attachmentFile,
-            refresh: () => {refresh(() {})},
-          );
-        });
-      default:
-        return const SizedBox();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +50,13 @@ class AttachmentWidget extends StatelessWidget {
                       : Colors.white,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 6.0, vertical: 2.0),
-                  child: attachmentTypeWidget(),
+                  child: AttachmentMediaWidget(
+                    attachmentFile: attachmentFile,
+                    withOverlayPreviewLayer: true,
+                    attachmentType: attachmentType,
+                    attachmentName: attachmentName,
+                    directoryInfo: directoryInfo,
+                  ),
                 ),
               ),
             ),

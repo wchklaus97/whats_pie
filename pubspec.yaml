@@ -32,6 +32,7 @@ dependencies:
   media_kit_video: ^1.2.4                        # For video rendering.
   media_kit_libs_video: ^1.0.4                   # Native video dependencies.
   url_launcher: ^6.3.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

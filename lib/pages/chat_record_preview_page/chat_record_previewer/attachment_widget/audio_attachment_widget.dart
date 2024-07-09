@@ -22,6 +22,8 @@ class AudioAttachmentWidgetState extends State<AudioAttachmentWidget> {
 
   @override
   void initState() {
+    super.initState();
+    _oggOpusPlayer = null;
     _playerStateNotifi = ValueNotifier(PlayerState.idle);
     _currPosNotifi = ValueNotifier(null);
     _playerStateNotifi.addListener(() {
@@ -29,76 +31,69 @@ class AudioAttachmentWidgetState extends State<AudioAttachmentWidget> {
         widget.refresh();
       }
     });
-    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-    if (!mounted) {
-      if (_oggOpusPlayer != null) {
-        _oggOpusPlayer!.dispose();
-      }
-      _currPosNotifi.dispose();
-      _playerStateNotifi.dispose();
+    if (_oggOpusPlayer != null) {
+      _oggOpusPlayer!.pause();
+      _oggOpusPlayer!.dispose();
     }
+    _currPosNotifi.dispose();
+    _playerStateNotifi.dispose();
+    _playerStateNotifi.removeListener(() {});
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      height: 50,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ValueListenableBuilder<PlayerState>(
-            valueListenable: _playerStateNotifi,
-            builder: (context, status, child) {
-              switch (status) {
-                case PlayerState.playing:
-                  return IconButton(
-                      onPressed: () {
-                        if (_oggOpusPlayer != null) {
-                          _oggOpusPlayer!.pause();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        ValueListenableBuilder<PlayerState>(
+          valueListenable: _playerStateNotifi,
+          builder: (context, status, child) {
+            switch (status) {
+              case PlayerState.playing:
+                return IconButton(
+                    onPressed: () {
+                      if (_oggOpusPlayer != null) {
+                        _oggOpusPlayer!.pause();
+                      }
+                      _timer.cancel();
+                    },
+                    icon: const Icon(Icons.pause));
+              case PlayerState.idle:
+              case PlayerState.ended:
+              default:
+                return IconButton(
+                    onPressed: () async {
+                      _oggOpusPlayer = OggOpusPlayer(widget.file.path);
+                      _oggOpusPlayer!.state.addListener(() {
+                        _playerStateNotifi.value = _oggOpusPlayer!.state.value;
+                      });
+                      _oggOpusPlayer!.play();
+                      _timer = Timer.periodic(const Duration(milliseconds: 10),
+                          (timer) {
+                        if (mounted) {
+                          _currPosNotifi.value =
+                              _oggOpusPlayer!.currentPosition;
                         }
-                        _timer.cancel();
-                      },
-                      icon: const Icon(Icons.pause));
-                case PlayerState.idle:
-                case PlayerState.ended:
-                default:
-                  return IconButton(
-                      onPressed: () async {
-                        _oggOpusPlayer = OggOpusPlayer(widget.file.path);
-
-                        _oggOpusPlayer!.state.addListener(() {
-                          _playerStateNotifi.value =
-                              _oggOpusPlayer!.state.value;
-                        });
-                        _oggOpusPlayer!.play();
-                        _timer = Timer.periodic(
-                            const Duration(milliseconds: 10), (timer) {
-                          if (mounted) {
-                            _currPosNotifi.value =
-                                _oggOpusPlayer!.currentPosition;
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.play_arrow_rounded));
-              }
-            },
-          ),
-          Flexible(
-              child: ValueListenableBuilder<double?>(
-            valueListenable: _currPosNotifi,
-            builder: (context, currPos, child) {
-              if (currPos == null) return const SizedBox();
-              return Text("${currPos.toStringAsFixed(2)} s");
-            },
-          ))
-        ],
-      ),
+                      });
+                    },
+                    icon: const Icon(Icons.play_arrow_rounded));
+            }
+          },
+        ),
+        Flexible(
+            child: ValueListenableBuilder<double?>(
+          valueListenable: _currPosNotifi,
+          builder: (context, currPos, child) {
+            if (currPos == null) return const SizedBox();
+            return Text("${currPos.toStringAsFixed(2)} s");
+          },
+        ))
+      ],
     );
   }
 }

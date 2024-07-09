@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:whats_pie/common/enum.dart';
 import 'package:whats_pie/models/chat_info.dart';
 import 'package:whats_pie/models/directory_info.dart';
 import 'package:whats_pie/bloc/chat_reader_bloc/chat_reader_state.dart';
+import 'package:whats_pie/services/file_service.dart';
 
 class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
   final File? file;
@@ -21,6 +21,8 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
     on<ChatReaderSwitch>(_onSwitch);
   }
 
+  DirectoryInfo? getDirectoryInfo() => _directoryInfo;
+
   String? _extractFileNameFromMsg(String value) {
     final Match? match = attachmentRegex.firstMatch(value);
     if (match != null) {
@@ -30,26 +32,6 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
       return null;
     }
     return '';
-  }
-
-  AttachmentType? _getAttachmentTypeFromName(String value) {
-    final type = value.split('.').last;
-    switch (type) {
-      case "webp":
-      case "png":
-      case "jpeg":
-      case "jpg":
-      case "gif":
-        return AttachmentType.media;
-      case "pdf":
-        return AttachmentType.doc;
-      case "opus":
-        return AttachmentType.voice;
-      case "mp4":
-        return AttachmentType.vedio;
-      default:
-        return null;
-    }
   }
 
   Future<ChatMsg?> _extractMsgInfoFromString(String value) async {
@@ -100,9 +82,8 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
       dateTime: "$day/$month/$year $hour:$minute",
       isAttachmentValid: isAttachmentValid,
       attachmentFile: isAttachmentValid ? attachmentFile : null,
-      attachmentType: isAttachmentValid
-          ? _getAttachmentTypeFromName(attachmentName!)
-          : null,
+      attachmentType:
+          isAttachmentValid ? getAttachmentTypeFromName(attachmentName!) : null,
     );
   }
 

@@ -33,6 +33,13 @@ extension DirectoryInfoExtensions on DirectoryInfo {
     return null;
   }
 
+  int getFileIndex(String path) {
+    if (files == null) return 0;
+    final index = files!.indexWhere((f) => f.file.path == path);
+    if (index == -1) return 0;
+    return index;
+  }
+
   DirectoryInfo sortFiles() {
     var newFiles = files!.toList();
     newFiles.removeWhere((file) => file.fileType == 'txt');

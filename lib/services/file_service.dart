@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:either_dart/either.dart';
+import 'package:whats_pie/common/enum.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:whats_pie/models/file_info.dart';
 import 'package:whats_pie/models/directory_info.dart';
@@ -50,5 +51,25 @@ class FileService {
       directories: directories,
       name: basename(directory.path),
     );
+  }
+}
+
+AttachmentType? getAttachmentTypeFromName(String value) {
+  final type = value.split('.').last;
+  switch (type) {
+    case "webp":
+    case "png":
+    case "jpeg":
+    case "jpg":
+    case "gif":
+      return AttachmentType.media;
+    case "pdf":
+      return AttachmentType.doc;
+    case "opus":
+      return AttachmentType.voice;
+    case "mp4":
+      return AttachmentType.vedio;
+    default:
+      return null;
   }
 }
