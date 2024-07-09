@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:whats_pie/common/regexp/regexp.dart';
 import 'package:whats_pie/models/file_info.dart';
 import 'package:whats_pie/models/directory_info.dart';
 import 'package:resizable_widget/resizable_widget.dart';
@@ -11,16 +13,16 @@ import 'package:whats_pie/pages/chat_record_preview_page/directory_structure_pre
 class PreviewInfo {
   final double width;
   final Widget child;
-  final DirectoryInfo directoryInfo;
-  final List<double> widthPercentages;
+  final DirectoryInfo dirInfo;
+  final List<double> widthPcts;
   final ChatReaderBloc chatReaderBloc;
 
   PreviewInfo._({
     required this.width,
     required this.child,
-    required this.directoryInfo,
+    required this.dirInfo,
     required this.chatReaderBloc,
-    required this.widthPercentages,
+    required this.widthPcts,
   });
 
   static List<double> _calWidthPercentages(double width) {
@@ -35,21 +37,21 @@ class PreviewInfo {
   }
 
   bool haveSameRatio(double width) {
-    return listEquals(widthPercentages, _calWidthPercentages(width));
+    return listEquals(widthPcts, _calWidthPercentages(width));
   }
 
   PreviewInfo copyWith({required double width}) {
-    final newWidthPercentages = _calWidthPercentages(width);
-    final fileFields = _getFileFields(directoryInfo.files);
+    final newWidthPcts = _calWidthPercentages(width);
+    final fileFields = _getFileFields(dirInfo.files);
 
     return PreviewInfo._(
       width: width,
-      directoryInfo: directoryInfo,
+      dirInfo: dirInfo,
       chatReaderBloc: chatReaderBloc,
-      widthPercentages: newWidthPercentages,
+      widthPcts: newWidthPcts,
       child: ResizableWidget(
         key: UniqueKey(),
-        percentages: newWidthPercentages,
+        percentages: newWidthPcts,
         children: [
           DirectoryStructurePreviewer(
             nameField: fileFields.nameField,
@@ -65,23 +67,28 @@ class PreviewInfo {
 
   factory PreviewInfo.init({
     required double width,
-    required DirectoryInfo directoryInfo,
+    required File chatFile,
+    required DirectoryInfo dirInfo,
+    required WhatsAppRegex whatsAppRegex,
   }) {
-    final newWidthPercentages = _calWidthPercentages(width);
-    final fileFields = _getFileFields(directoryInfo.files);
+    final newWidthPcts = _calWidthPercentages(width);
+    final fileFields = _getFileFields(dirInfo.files);
 
-    final chatReaderBloc =
-        ChatReaderBloc(directoryInfo.getChatRecordFile(), directoryInfo);
+    final chatReaderBloc = ChatReaderBloc(
+      dirInfo,
+      chatFile: chatFile,
+      regex: whatsAppRegex,
+    );
     chatReaderBloc.add(ChatReaderStart());
 
     return PreviewInfo._(
       width: width,
       chatReaderBloc: chatReaderBloc,
-      widthPercentages: newWidthPercentages,
-      directoryInfo: directoryInfo,
+      widthPcts: newWidthPcts,
+      dirInfo: dirInfo,
       child: ResizableWidget(
         key: UniqueKey(),
-        percentages: newWidthPercentages,
+        percentages: newWidthPcts,
         children: [
           DirectoryStructurePreviewer(
             nameField: fileFields.nameField,

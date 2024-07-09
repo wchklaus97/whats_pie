@@ -25,11 +25,11 @@ class FileService {
   Future<DirectoryInfo> _buildDirectoryInfo(Directory directory) async {
     List<FileSystemEntity> contents = directory.listSync();
     List<FileInfo> files = [];
-    List<DirectoryInfo> directories = [];
+    List<DirectoryInfo> dirInfos = [];
 
     for (FileSystemEntity entity in contents) {
       if (entity is Directory) {
-        directories.add(await _buildDirectoryInfo(entity));
+        dirInfos.add(await _buildDirectoryInfo(entity));
       } else if (entity is File) {
         DateTime lastAccessedAt = entity.lastAccessedSync();
         DateTime lastModifiedAt = entity.lastModifiedSync();
@@ -48,7 +48,7 @@ class FileService {
 
     return DirectoryInfo(
       files: files,
-      directories: directories,
+      dirInfos: dirInfos,
       name: basename(directory.path),
     );
   }

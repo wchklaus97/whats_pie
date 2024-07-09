@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:either_dart/either.dart';
+import 'package:whats_pie/common/regexp/regexp.dart';
 import 'package:whats_pie/models/directory_info.dart';
 import 'package:whats_pie/services/file_service.dart';
 import 'package:whats_pie/bloc/files_searcher_bloc/files_searcher_state.dart';
@@ -22,12 +23,17 @@ class FilesSearcherBloc extends Bloc<FilesSearcherEvent, FilesSearcherState> {
       late Either<bool, String> validOrError =
           directoryInfoOrError.left.getDirectoryStatus();
       if (validOrError.isLeft) {
-        emit(FilesSearcherState.complete(directoryInfoOrError.left));
+        emit(
+          FilesSearcherState.complete(
+            whatsAppRegex: event.whatsAppRegex,
+            dirInfo: directoryInfoOrError.left,
+          ),
+        );
       } else {
-        emit(FilesSearcherState.error(validOrError.right));
+        emit(FilesSearcherState.error(errorMsg: validOrError.right));
       }
     } else {
-      emit(FilesSearcherState.error(directoryInfoOrError.right));
+      emit(FilesSearcherState.error(errorMsg: directoryInfoOrError.right));
     }
   }
 
@@ -39,6 +45,9 @@ class FilesSearcherBloc extends Bloc<FilesSearcherEvent, FilesSearcherState> {
 
 abstract class FilesSearcherEvent {}
 
-class FileSearcherStart extends FilesSearcherEvent {}
+class FileSearcherStart extends FilesSearcherEvent {
+  final WhatsAppRegex whatsAppRegex;
+  FileSearcherStart({required this.whatsAppRegex});
+}
 
 class FileSearcherRestart extends FilesSearcherEvent {}

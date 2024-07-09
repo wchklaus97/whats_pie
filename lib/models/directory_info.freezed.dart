@@ -22,7 +22,7 @@ DirectoryInfo _$DirectoryInfoFromJson(Map<String, dynamic> json) {
 mixin _$DirectoryInfo {
   String get name => throw _privateConstructorUsedError;
   List<FileInfo>? get files => throw _privateConstructorUsedError;
-  List<DirectoryInfo>? get directories => throw _privateConstructorUsedError;
+  List<DirectoryInfo>? get dirInfos => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +37,7 @@ abstract class $DirectoryInfoCopyWith<$Res> {
       _$DirectoryInfoCopyWithImpl<$Res, DirectoryInfo>;
   @useResult
   $Res call(
-      {String name, List<FileInfo>? files, List<DirectoryInfo>? directories});
+      {String name, List<FileInfo>? files, List<DirectoryInfo>? dirInfos});
 }
 
 /// @nodoc
@@ -55,7 +55,7 @@ class _$DirectoryInfoCopyWithImpl<$Res, $Val extends DirectoryInfo>
   $Res call({
     Object? name = null,
     Object? files = freezed,
-    Object? directories = freezed,
+    Object? dirInfos = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -66,9 +66,9 @@ class _$DirectoryInfoCopyWithImpl<$Res, $Val extends DirectoryInfo>
           ? _value.files
           : files // ignore: cast_nullable_to_non_nullable
               as List<FileInfo>?,
-      directories: freezed == directories
-          ? _value.directories
-          : directories // ignore: cast_nullable_to_non_nullable
+      dirInfos: freezed == dirInfos
+          ? _value.dirInfos
+          : dirInfos // ignore: cast_nullable_to_non_nullable
               as List<DirectoryInfo>?,
     ) as $Val);
   }
@@ -83,7 +83,7 @@ abstract class _$$DirectoryInfoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name, List<FileInfo>? files, List<DirectoryInfo>? directories});
+      {String name, List<FileInfo>? files, List<DirectoryInfo>? dirInfos});
 }
 
 /// @nodoc
@@ -99,7 +99,7 @@ class __$$DirectoryInfoImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? files = freezed,
-    Object? directories = freezed,
+    Object? dirInfos = freezed,
   }) {
     return _then(_$DirectoryInfoImpl(
       name: null == name
@@ -110,9 +110,9 @@ class __$$DirectoryInfoImplCopyWithImpl<$Res>
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
               as List<FileInfo>?,
-      directories: freezed == directories
-          ? _value._directories
-          : directories // ignore: cast_nullable_to_non_nullable
+      dirInfos: freezed == dirInfos
+          ? _value._dirInfos
+          : dirInfos // ignore: cast_nullable_to_non_nullable
               as List<DirectoryInfo>?,
     ));
   }
@@ -126,9 +126,9 @@ class _$DirectoryInfoImpl
   const _$DirectoryInfoImpl(
       {required this.name,
       required final List<FileInfo>? files,
-      required final List<DirectoryInfo>? directories})
+      required final List<DirectoryInfo>? dirInfos})
       : _files = files,
-        _directories = directories;
+        _dirInfos = dirInfos;
 
   factory _$DirectoryInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$DirectoryInfoImplFromJson(json);
@@ -145,19 +145,19 @@ class _$DirectoryInfoImpl
     return EqualUnmodifiableListView(value);
   }
 
-  final List<DirectoryInfo>? _directories;
+  final List<DirectoryInfo>? _dirInfos;
   @override
-  List<DirectoryInfo>? get directories {
-    final value = _directories;
+  List<DirectoryInfo>? get dirInfos {
+    final value = _dirInfos;
     if (value == null) return null;
-    if (_directories is EqualUnmodifiableListView) return _directories;
+    if (_dirInfos is EqualUnmodifiableListView) return _dirInfos;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DirectoryInfo(name: $name, files: $files, directories: $directories)';
+    return 'DirectoryInfo(name: $name, files: $files, dirInfos: $dirInfos)';
   }
 
   @override
@@ -167,7 +167,7 @@ class _$DirectoryInfoImpl
       ..add(DiagnosticsProperty('type', 'DirectoryInfo'))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('files', files))
-      ..add(DiagnosticsProperty('directories', directories));
+      ..add(DiagnosticsProperty('dirInfos', dirInfos));
   }
 
   @override
@@ -177,8 +177,7 @@ class _$DirectoryInfoImpl
             other is _$DirectoryInfoImpl &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._files, _files) &&
-            const DeepCollectionEquality()
-                .equals(other._directories, _directories));
+            const DeepCollectionEquality().equals(other._dirInfos, _dirInfos));
   }
 
   @JsonKey(ignore: true)
@@ -187,7 +186,7 @@ class _$DirectoryInfoImpl
       runtimeType,
       name,
       const DeepCollectionEquality().hash(_files),
-      const DeepCollectionEquality().hash(_directories));
+      const DeepCollectionEquality().hash(_dirInfos));
 
   @JsonKey(ignore: true)
   @override
@@ -207,7 +206,7 @@ abstract class _DirectoryInfo implements DirectoryInfo {
   const factory _DirectoryInfo(
       {required final String name,
       required final List<FileInfo>? files,
-      required final List<DirectoryInfo>? directories}) = _$DirectoryInfoImpl;
+      required final List<DirectoryInfo>? dirInfos}) = _$DirectoryInfoImpl;
 
   factory _DirectoryInfo.fromJson(Map<String, dynamic> json) =
       _$DirectoryInfoImpl.fromJson;
@@ -217,7 +216,7 @@ abstract class _DirectoryInfo implements DirectoryInfo {
   @override
   List<FileInfo>? get files;
   @override
-  List<DirectoryInfo>? get directories;
+  List<DirectoryInfo>? get dirInfos;
   @override
   @JsonKey(ignore: true)
   _$$DirectoryInfoImplCopyWith<_$DirectoryInfoImpl> get copyWith =>

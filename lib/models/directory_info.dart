@@ -13,7 +13,7 @@ class DirectoryInfo with _$DirectoryInfo {
   const factory DirectoryInfo({
     required String name,
     required List<FileInfo>? files,
-    required List<DirectoryInfo>? directories,
+    required List<DirectoryInfo>? dirInfos,
   }) = _DirectoryInfo;
 
   factory DirectoryInfo.fromJson(Map<String, Object?> json) =>
@@ -47,7 +47,7 @@ extension DirectoryInfoExtensions on DirectoryInfo {
       return (a.createdAt ?? DateTime.now())
           .compareTo(b.createdAt ?? DateTime.now());
     });
-    return DirectoryInfo(name: name, files: newFiles, directories: directories);
+    return DirectoryInfo(name: name, files: newFiles, dirInfos: dirInfos);
   }
 
   DirectoryInfo? updateFileInfo(
@@ -60,7 +60,7 @@ extension DirectoryInfoExtensions on DirectoryInfo {
     final newFileInfo = file.updateCreatedAt(createdAt);
     newFiles.removeAt(fileIndex);
     newFiles.add(newFileInfo);
-    return DirectoryInfo(name: name, files: newFiles, directories: directories);
+    return DirectoryInfo(name: name, files: newFiles, dirInfos: dirInfos);
   }
 
   bool isFileNameValid(String fileName) {
@@ -75,7 +75,7 @@ extension DirectoryInfoExtensions on DirectoryInfo {
     return false;
   }
 
-  File? getChatRecordFile() {
+  File? getChatFile() {
     if (files != null) {
       final chatRecords = files!.where((v) => v.fileType == "txt");
       if (chatRecords.length == 1) {
@@ -86,12 +86,12 @@ extension DirectoryInfoExtensions on DirectoryInfo {
   }
 
   Either<bool, String> getDirectoryStatus() {
-    if (files == null && directories == null) {
+    if (files == null && dirInfos == null) {
       return const Right(
           "This is an empty directory without any files or directories.");
     }
 
-    if (directories != null && directories!.isNotEmpty) {
+    if (dirInfos != null && dirInfos!.isNotEmpty) {
       return const Right(
           "This directory is not in a valid WhatsApp format. Please check the directory structure.");
     }

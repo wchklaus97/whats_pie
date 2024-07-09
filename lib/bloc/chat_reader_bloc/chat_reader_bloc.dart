@@ -1,33 +1,33 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:whats_pie/models/chat_info.dart';
+import 'package:whats_pie/common/regexp/regexp.dart';
 import 'package:whats_pie/models/directory_info.dart';
-import 'package:whats_pie/bloc/chat_reader_bloc/chat_reader_state.dart';
 import 'package:whats_pie/services/file_service.dart';
+import 'package:whats_pie/bloc/chat_reader_bloc/chat_reader_state.dart';
 
 class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
-  final File? file;
-  static DirectoryInfo? _directoryInfo;
+  final File chatFile;
+  final WhatsAppRegex regex;
+  static late DirectoryInfo _dirInfo;
 
-  final attachmentRegex = RegExp(r'\b(.*?)\s\(附件檔案\)');
-  final dateTimeRegex = RegExp(r'^(\d{1,2}/\d{1,2}/\d{4}) (\d{2}:\d{2}) - ');
-  final msgRegex =
-      RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{2}):(\d{2})\s-\s(.*)');
-
-  ChatReaderBloc(this.file, DirectoryInfo directoryInfo)
-      : super(const ChatReaderState.idle()) {
-    _directoryInfo = directoryInfo;
+  ChatReaderBloc(
+    DirectoryInfo dirInfo, {
+    required this.chatFile,
+    required this.regex,
+  }) : super(const ChatReaderState.idle()) {
+    _dirInfo = dirInfo;
     on<ChatReaderStart>(_onStart);
     on<ChatReaderSwitch>(_onSwitch);
   }
 
-  DirectoryInfo? getDirectoryInfo() => _directoryInfo;
+  DirectoryInfo? getDirectoryInfo() => _dirInfo;
 
   String? _extractFileNameFromMsg(String value) {
-    final Match? match = attachmentRegex.firstMatch(value);
+    final Match? match = regex.attachmentRegExp.firstMatch(value);
     if (match != null) {
       final String extractedName = match.group(1)!.trim();
-      final isFileNameValid = _directoryInfo!.isFileNameValid(extractedName);
+      final isFileNameValid = _dirInfo.isFileNameValid(extractedName);
       if (isFileNameValid == true) return extractedName;
       return null;
     }
@@ -35,7 +35,7 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
   }
 
   Future<ChatMsg?> _extractMsgInfoFromString(String value) async {
-    Iterable<Match> matches = msgRegex.allMatches(value);
+    Iterable<Match> matches = regex.msgRegExp.allMatches(value);
     int? day, month, year, hour, minute;
     String? sender;
     String? msg;
@@ -61,16 +61,16 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
       }
     }
 
-    if (_directoryInfo != null && attachmentName != null) {
-      attachmentFile = _directoryInfo!.getFileWithName(attachmentName);
+    if (attachmentName != null) {
+      attachmentFile = _dirInfo.getFileWithName(attachmentName);
       if (attachmentFile != null) {
         isAttachmentValid = await attachmentFile.exists();
         if (isAttachmentValid) {
-          final newDirectoryInfo = _directoryInfo!.updateFileInfo(
+          final newDirectoryInfo = _dirInfo.updateFileInfo(
               fileName: attachmentName,
               createdAt: DateTime(year!, month!, day!, hour!, minute!));
           if (newDirectoryInfo != null) {
-            _directoryInfo = newDirectoryInfo;
+            _dirInfo = newDirectoryInfo;
           }
         }
       }
@@ -93,39 +93,37 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
     List<ChatMsg> chatMsgs = [];
     emit(const ChatReaderState.reading());
 
-    if (file != null) {
-      List<String> lines = file!.readAsLinesSync();
+    List<String> lines = chatFile.readAsLinesSync();
 
-      for (int i = 0; i < lines.length; i++) {
-        Match? match = dateTimeRegex.firstMatch(lines[i]);
+    for (int i = 0; i < lines.length; i++) {
+      Match? match = regex.dateTimeRegExp.firstMatch(lines[i]);
 
-        if (match != null) {
-          ChatMsg? chatMsg = await _extractMsgInfoFromString(lines[i]);
-          if (chatMsg != null) {
-            chatMsg.sender != null ? users.add(chatMsg.sender!) : null;
-            chatMsgs.add(chatMsg);
-          }
-        } else {
-          final lastChatMsg = chatMsgs.last;
-          chatMsgs.removeLast();
-          List<String> msgs =
-              lastChatMsg.msgs != null ? lastChatMsg.msgs!.toList() : [];
-          msgs.add(lines[i]);
-          chatMsgs.add(
-            ChatMsg(
-              msgs: msgs,
-              attachmentFile: lastChatMsg.attachmentFile,
-              attachmentType: lastChatMsg.attachmentType,
-              sender: lastChatMsg.sender,
-              dateTime: lastChatMsg.dateTime,
-              attachmentName: lastChatMsg.attachmentName,
-              isAttachmentValid: lastChatMsg.isAttachmentValid,
-            ),
-          );
+      if (match != null) {
+        ChatMsg? chatMsg = await _extractMsgInfoFromString(lines[i]);
+        if (chatMsg != null) {
+          chatMsg.sender != null ? users.add(chatMsg.sender!) : null;
+          chatMsgs.add(chatMsg);
         }
+      } else {
+        final lastChatMsg = chatMsgs.last;
+        chatMsgs.removeLast();
+        List<String> msgs =
+            lastChatMsg.msgs != null ? lastChatMsg.msgs!.toList() : [];
+        msgs.add(lines[i]);
+        chatMsgs.add(
+          ChatMsg(
+            msgs: msgs,
+            attachmentFile: lastChatMsg.attachmentFile,
+            attachmentType: lastChatMsg.attachmentType,
+            sender: lastChatMsg.sender,
+            dateTime: lastChatMsg.dateTime,
+            attachmentName: lastChatMsg.attachmentName,
+            isAttachmentValid: lastChatMsg.isAttachmentValid,
+          ),
+        );
       }
     }
-    _directoryInfo = _directoryInfo!.sortFiles();
+    _dirInfo = _dirInfo.sortFiles();
     if (chatMsgs.isNotEmpty) {
       emit(
         ChatReaderState.complete(

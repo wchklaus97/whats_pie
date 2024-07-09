@@ -20,7 +20,9 @@ mixin _$FilesSearcherState {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo directoryInfo) complete,
+    required TResult Function(
+            WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)
+        complete,
     required TResult Function(String errorMsg) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +30,8 @@ mixin _$FilesSearcherState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo directoryInfo)? complete,
+    TResult? Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult? Function(String errorMsg)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +39,8 @@ mixin _$FilesSearcherState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo directoryInfo)? complete,
+    TResult Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) =>
@@ -125,7 +129,9 @@ class _$IdleImpl implements Idle {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo directoryInfo) complete,
+    required TResult Function(
+            WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)
+        complete,
     required TResult Function(String errorMsg) error,
   }) {
     return idle();
@@ -136,7 +142,8 @@ class _$IdleImpl implements Idle {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo directoryInfo)? complete,
+    TResult? Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult? Function(String errorMsg)? error,
   }) {
     return idle?.call();
@@ -147,7 +154,8 @@ class _$IdleImpl implements Idle {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo directoryInfo)? complete,
+    TResult Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
@@ -239,7 +247,9 @@ class _$SearchingImpl implements Searching {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo directoryInfo) complete,
+    required TResult Function(
+            WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)
+        complete,
     required TResult Function(String errorMsg) error,
   }) {
     return searching();
@@ -250,7 +260,8 @@ class _$SearchingImpl implements Searching {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo directoryInfo)? complete,
+    TResult? Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult? Function(String errorMsg)? error,
   }) {
     return searching?.call();
@@ -261,7 +272,8 @@ class _$SearchingImpl implements Searching {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo directoryInfo)? complete,
+    TResult Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
@@ -319,9 +331,9 @@ abstract class _$$CompleteImplCopyWith<$Res> {
           _$CompleteImpl value, $Res Function(_$CompleteImpl) then) =
       __$$CompleteImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({DirectoryInfo directoryInfo});
+  $Res call({WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo});
 
-  $DirectoryInfoCopyWith<$Res> get directoryInfo;
+  $DirectoryInfoCopyWith<$Res> get dirInfo;
 }
 
 /// @nodoc
@@ -335,21 +347,26 @@ class __$$CompleteImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? directoryInfo = null,
+    Object? whatsAppRegex = null,
+    Object? dirInfo = null,
   }) {
     return _then(_$CompleteImpl(
-      null == directoryInfo
-          ? _value.directoryInfo
-          : directoryInfo // ignore: cast_nullable_to_non_nullable
+      whatsAppRegex: null == whatsAppRegex
+          ? _value.whatsAppRegex
+          : whatsAppRegex // ignore: cast_nullable_to_non_nullable
+              as WhatsAppRegex,
+      dirInfo: null == dirInfo
+          ? _value.dirInfo
+          : dirInfo // ignore: cast_nullable_to_non_nullable
               as DirectoryInfo,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $DirectoryInfoCopyWith<$Res> get directoryInfo {
-    return $DirectoryInfoCopyWith<$Res>(_value.directoryInfo, (value) {
-      return _then(_value.copyWith(directoryInfo: value));
+  $DirectoryInfoCopyWith<$Res> get dirInfo {
+    return $DirectoryInfoCopyWith<$Res>(_value.dirInfo, (value) {
+      return _then(_value.copyWith(dirInfo: value));
     });
   }
 }
@@ -357,14 +374,16 @@ class __$$CompleteImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CompleteImpl implements Complete {
-  const _$CompleteImpl(this.directoryInfo);
+  const _$CompleteImpl({required this.whatsAppRegex, required this.dirInfo});
 
   @override
-  final DirectoryInfo directoryInfo;
+  final WhatsAppRegex whatsAppRegex;
+  @override
+  final DirectoryInfo dirInfo;
 
   @override
   String toString() {
-    return 'FilesSearcherState.complete(directoryInfo: $directoryInfo)';
+    return 'FilesSearcherState.complete(whatsAppRegex: $whatsAppRegex, dirInfo: $dirInfo)';
   }
 
   @override
@@ -372,12 +391,13 @@ class _$CompleteImpl implements Complete {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CompleteImpl &&
-            (identical(other.directoryInfo, directoryInfo) ||
-                other.directoryInfo == directoryInfo));
+            (identical(other.whatsAppRegex, whatsAppRegex) ||
+                other.whatsAppRegex == whatsAppRegex) &&
+            (identical(other.dirInfo, dirInfo) || other.dirInfo == dirInfo));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, directoryInfo);
+  int get hashCode => Object.hash(runtimeType, whatsAppRegex, dirInfo);
 
   @JsonKey(ignore: true)
   @override
@@ -390,10 +410,12 @@ class _$CompleteImpl implements Complete {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo directoryInfo) complete,
+    required TResult Function(
+            WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)
+        complete,
     required TResult Function(String errorMsg) error,
   }) {
-    return complete(directoryInfo);
+    return complete(whatsAppRegex, dirInfo);
   }
 
   @override
@@ -401,10 +423,11 @@ class _$CompleteImpl implements Complete {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo directoryInfo)? complete,
+    TResult? Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult? Function(String errorMsg)? error,
   }) {
-    return complete?.call(directoryInfo);
+    return complete?.call(whatsAppRegex, dirInfo);
   }
 
   @override
@@ -412,12 +435,13 @@ class _$CompleteImpl implements Complete {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo directoryInfo)? complete,
+    TResult Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
     if (complete != null) {
-      return complete(directoryInfo);
+      return complete(whatsAppRegex, dirInfo);
     }
     return orElse();
   }
@@ -461,9 +485,12 @@ class _$CompleteImpl implements Complete {
 }
 
 abstract class Complete implements FilesSearcherState {
-  const factory Complete(final DirectoryInfo directoryInfo) = _$CompleteImpl;
+  const factory Complete(
+      {required final WhatsAppRegex whatsAppRegex,
+      required final DirectoryInfo dirInfo}) = _$CompleteImpl;
 
-  DirectoryInfo get directoryInfo;
+  WhatsAppRegex get whatsAppRegex;
+  DirectoryInfo get dirInfo;
   @JsonKey(ignore: true)
   _$$CompleteImplCopyWith<_$CompleteImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -492,7 +519,7 @@ class __$$ErrorImplCopyWithImpl<$Res>
     Object? errorMsg = null,
   }) {
     return _then(_$ErrorImpl(
-      null == errorMsg
+      errorMsg: null == errorMsg
           ? _value.errorMsg
           : errorMsg // ignore: cast_nullable_to_non_nullable
               as String,
@@ -503,7 +530,7 @@ class __$$ErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ErrorImpl implements Error {
-  const _$ErrorImpl(this.errorMsg);
+  const _$ErrorImpl({required this.errorMsg});
 
   @override
   final String errorMsg;
@@ -536,7 +563,9 @@ class _$ErrorImpl implements Error {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() searching,
-    required TResult Function(DirectoryInfo directoryInfo) complete,
+    required TResult Function(
+            WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)
+        complete,
     required TResult Function(String errorMsg) error,
   }) {
     return error(errorMsg);
@@ -547,7 +576,8 @@ class _$ErrorImpl implements Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? searching,
-    TResult? Function(DirectoryInfo directoryInfo)? complete,
+    TResult? Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult? Function(String errorMsg)? error,
   }) {
     return error?.call(errorMsg);
@@ -558,7 +588,8 @@ class _$ErrorImpl implements Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? searching,
-    TResult Function(DirectoryInfo directoryInfo)? complete,
+    TResult Function(WhatsAppRegex whatsAppRegex, DirectoryInfo dirInfo)?
+        complete,
     TResult Function(String errorMsg)? error,
     required TResult orElse(),
   }) {
@@ -607,7 +638,7 @@ class _$ErrorImpl implements Error {
 }
 
 abstract class Error implements FilesSearcherState {
-  const factory Error(final String errorMsg) = _$ErrorImpl;
+  const factory Error({required final String errorMsg}) = _$ErrorImpl;
 
   String get errorMsg;
   @JsonKey(ignore: true)

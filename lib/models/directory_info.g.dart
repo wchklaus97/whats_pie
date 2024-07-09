@@ -12,7 +12,7 @@ _$DirectoryInfoImpl _$$DirectoryInfoImplFromJson(Map<String, dynamic> json) =>
       files: (json['files'] as List<dynamic>?)
           ?.map((e) => FileInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
-      directories: (json['directories'] as List<dynamic>?)
+      dirInfos: (json['dirInfos'] as List<dynamic>?)
           ?.map((e) => DirectoryInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -21,5 +21,5 @@ Map<String, dynamic> _$$DirectoryInfoImplToJson(_$DirectoryInfoImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'files': instance.files,
-      'directories': instance.directories,
+      'dirInfos': instance.dirInfos,
     };

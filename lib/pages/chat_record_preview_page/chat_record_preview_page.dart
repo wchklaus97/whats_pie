@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:whats_pie/common/regexp/regexp.dart';
 import 'package:whats_pie/models/preview_info.dart';
 import 'package:whats_pie/models/directory_info.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:whats_pie/bloc/files_searcher_bloc/files_searcher_bloc.dart';
 
 class ChatRecordPreviewPage extends StatefulWidget {
-  final DirectoryInfo directoryInfo;
+  final DirectoryInfo dirInfo;
+  final WhatsAppRegex whatsAppRegex;
   final FilesSearcherBloc filesSearcherBloc;
 
   const ChatRecordPreviewPage(
       {super.key,
-      required this.directoryInfo,
+      required this.dirInfo,
+      required this.whatsAppRegex,
       required this.filesSearcherBloc});
 
   @override
@@ -39,7 +42,7 @@ class _ChatRecordPreviewPageState extends State<ChatRecordPreviewPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.directoryInfo.name),
+        title: Text(widget.dirInfo.name),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.grey),
           onPressed: () => widget.filesSearcherBloc.add(FileSearcherRestart()),
@@ -54,8 +57,14 @@ class _ChatRecordPreviewPageState extends State<ChatRecordPreviewPage> {
                   previewInfoNotifi.value!.copyWith(width: width);
             }
           } else {
-            previewInfoNotifi.value = PreviewInfo.init(
-                width: width, directoryInfo: widget.directoryInfo);
+            final chatFile = widget.dirInfo.getChatFile();
+            if (chatFile != null) {
+              previewInfoNotifi.value = PreviewInfo.init(
+                  width: width,
+                  chatFile: chatFile,
+                  dirInfo: widget.dirInfo,
+                  whatsAppRegex: widget.whatsAppRegex);
+            }
           }
           return ValueListenableBuilder<PreviewInfo?>(
             valueListenable: previewInfoNotifi,
