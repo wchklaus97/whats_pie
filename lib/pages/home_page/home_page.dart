@@ -50,8 +50,17 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const Text("WhatsPie",
+                        style: TextStyle(
+                            fontSize: 48, fontWeight: FontWeight.bold)),
+                    const Text("Version - 1.0.0+1 (beta)",
+                        style: TextStyle(
+                            height: 1.0,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 36.0),
                     Image.asset("assets/app_icon.png", width: 120, height: 120),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 44),
                     SelectedBtn(
                         name: "Select Folder",
                         onPressed: () =>
@@ -67,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(v.errorMsg,
                         style: const TextStyle(fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 44.0),
                     SelectedBtn(
                       name: "Choose Another Folder",
                       onPressed: () =>
