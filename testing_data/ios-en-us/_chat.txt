@@ -1,0 +1,9 @@
+[10/7/2024, 10:50:54 AM] Testing: ‎Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them.
+[10/7/2024, 10:50:54 AM] Testing: ‎You created group “Testing”
+[10/7/2024, 10:51:03 AM] T1: ‎You removed T1
+‎[10/7/2024, 10:51:13 AM] Klaus: ‎<attached: 00000004-STICKER-2024-07-10-10-51-12.webp>
+[10/7/2024, 10:51:35 AM] Klaus: 早晨☺️
+[10/7/2024, 10:51:46 AM] Klaus: 食咗飯未吖？☺️
+‎[10/7/2024, 10:52:48 AM] Klaus: ‎<attached: 00000007-STICKER-2024-07-09-10-52-47.webp>
+‎[10/7/2024, 10:53:54 AM] Klaus: Trad-diet-guide.pdf • ‎5 pages ‎<attached: 00000008-Trad-diet-guide.pdf>
+‎[10/7/2024, 10:54:16 AM] Klaus: ‎<attached: 00000009-AUDIO-2024-07-10-10-54-15.opus>
