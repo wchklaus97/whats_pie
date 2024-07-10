@@ -48,7 +48,30 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
       case WhatsAppPlatform.iOS:
         switch (regex.locale) {
           case MobileLocale.enUS:
-            return null;
+            final msgMatch = regex.msgRegExp.firstMatch(value);
+            if (msgMatch != null) {
+              bool isAM = false;
+              final dateStr = msgMatch.group(1)!;
+              final dateParts = dateStr.split('/');
+              day = int.parse(dateParts[0]);
+              month = int.parse(dateParts[1]);
+              year = int.parse(dateParts[2]);
+
+              isAM = msgMatch.group(5) == "AM";
+              hour = int.parse(msgMatch.group(2)!);
+              if (isAM == false) {
+                hour += 12;
+              }
+              minute = int.parse(msgMatch.group(3)!);
+              second = int.parse(msgMatch.group(4)!);
+              sender = msgMatch.group(6);
+              msg = msgMatch.group(7)?.trim();
+              final attachmentMatch =
+                  regex.attachmentRegExp.firstMatch(msgMatch.group(7)!);
+              if (attachmentMatch != null) {
+                attachmentName = attachmentMatch.group(1);
+              }
+            }
           case MobileLocale.zhHantHK:
             final msgMatch = regex.msgRegExp.firstMatch(value);
             if (msgMatch != null) {

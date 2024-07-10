@@ -45,10 +45,10 @@ class WhatsAppRegex {
       platform: WhatsAppPlatform.iOS,
       locale: MobileLocale.enUS,
       msgRegExp: RegExp(
-          r'^\[(\d{1,2})\/(\d{1,2})\/(\d{4}), (\d{1,2}):(\d{2}) (AM|PM)\] (.*)'),
+          r'\[(\d{1,2}/\d{1,2}/\d{4}),\s*(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM)?\]\s*(\w+(?:\s\w+)*)\s*:\s*(.*)'),
       dateTimeRegExp: RegExp(
-          r'^\[(\d{1,2}\/\d{1,2}\/\d{4}), \s*(\d{1,2}:\d{2}) (AM|PM)\] '),
-      attachmentRegExp: RegExp(r'^\<attached:\s*(.*?)\>$'));
+          r'\[(\d{1,2}/\d{1,2}/\d{4}),\s*(\d{1,2}:\d{2}:\d{2})\s*(AM|PM)?\]'),
+      attachmentRegExp: RegExp(r'<attached:\s*(.*?)>'));
 
   static final Map<MobileLocale, String> supportLocales = {
     MobileLocale.zhHantHK: "zh-hant-hk",
