@@ -27,8 +27,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   RECT desktop;
   const HWND hDesktop = GetDesktopWindow();
   GetWindowRect(hDesktop, &desktop);
-  int monitorWidth = static_cast<int>(desktop.right - desktop.left);
-  int monitorHeight = static_cast<int>(desktop.bottom - desktop.top);
+  int monitorWidth = static_cast<int>((desktop.right - desktop.left));
+  int monitorHeight = static_cast<int>((desktop.bottom - desktop.top));
 
   FlutterWindow window(project);
   Win32Window::Point origin(0, 0);
@@ -37,9 +37,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
     return EXIT_FAILURE;
   }
 
-  // Set the window to full-screen mode
-  SetWindowLongPtr(window.GetHandle(), GWL_STYLE, WS_POPUP);
-  ShowWindow(window.GetHandle(), SW_MAXIMIZE);
+  // Disable window resizing
+  SetWindowLongPtr(window.GetHandle(), GWL_STYLE, WS_OVERLAPPEDWINDOW & ~WS_SIZEBOX & ~WS_MAXIMIZEBOX);
 
   window.SetQuitOnClose(true);
 
