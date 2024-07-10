@@ -20,17 +20,17 @@ class WhatsAppRegex {
       platform: WhatsAppPlatform.android,
       locale: MobileLocale.zhHantHK,
       msgRegExp:
-          RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{2}):(\d{2})\s-\s(.*)'),
-      dateTimeRegExp: RegExp(r'^(\d{1,2}/\d{1,2}/\d{4}) (\d{2}:\d{2}) - '),
+          RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4})\s*(\d{2}):(\d{2})\s-\s(.*)'),
+      dateTimeRegExp: RegExp(r'^(\d{1,2}/\d{1,2}/\d{4})\s*(\d{2}:\d{2}) - '),
       attachmentRegExp: RegExp(r'\b(.*?)\s\(附件檔案\)'));
 
   static final _aosEN = WhatsAppRegex._(
       platform: WhatsAppPlatform.android,
       locale: MobileLocale.enUS,
       msgRegExp:
-          RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{2}):(\d{2})\s-\s(.*)'),
-      dateTimeRegExp: RegExp(r'^(\d{1,2}/\d{1,2}/\d{4}) (\d{2}:\d{2}) - '),
-      attachmentRegExp: RegExp(r'\b(.*?)\s\(附件檔案\)'));
+          RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4}),\s*(\d{2}):(\d{2})\s-\s(.*)'),
+      dateTimeRegExp: RegExp(r'^(\d{1,2}/\d{1,2}/\d{4}),\s*(\d{2}:\d{2}) - '),
+      attachmentRegExp: RegExp(r'\b(.*?)\s\(file attached\)'));
 
   static final _iosZhHantHK = WhatsAppRegex._(
       platform: WhatsAppPlatform.iOS,

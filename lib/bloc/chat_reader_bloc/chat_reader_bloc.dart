@@ -102,7 +102,6 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
       default:
         switch (regex.locale) {
           case MobileLocale.enUS:
-            return null;
           case MobileLocale.zhHantHK:
           default:
             Iterable<Match> matches = regex.msgRegExp.allMatches(value);
