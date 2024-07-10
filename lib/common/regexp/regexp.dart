@@ -35,18 +35,20 @@ class WhatsAppRegex {
   static final _iosZhHantHK = WhatsAppRegex._(
       platform: WhatsAppPlatform.iOS,
       locale: MobileLocale.zhHantHK,
-      msgRegExp:
-          RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{2}):(\d{2})\s-\s(.*)'),
-      dateTimeRegExp: RegExp(r'^(\d{1,2}/\d{1,2}/\d{4}) (\d{2}:\d{2}) - '),
-      attachmentRegExp: RegExp(r'\b(.*?)\s\(附件檔案\)'));
+      msgRegExp: RegExp(
+          r'\[(\d{1,2}/\d{1,2}/\d{4})\s*(上午|下午)?(\d{1,2}):(\d{2}):(\d{2})\]\s*(\w+(?:\s\w+)*)\s*:\s*(.*)'),
+      dateTimeRegExp: RegExp(
+          r'\[(\d{1,2}/\d{1,2}/\d{4})\s*(上午|下午)?(\d{1,2}:\d{2}:\d{2})\]'),
+      attachmentRegExp: RegExp(r'<附件：(.*?)>'));
 
   static final _iosEN = WhatsAppRegex._(
       platform: WhatsAppPlatform.iOS,
       locale: MobileLocale.enUS,
-      msgRegExp:
-          RegExp(r'^(\d{1,2})\/(\d{1,2})\/(\d{4})\s(\d{2}):(\d{2})\s-\s(.*)'),
-      dateTimeRegExp: RegExp(r'^(\d{1,2}/\d{1,2}/\d{4}) (\d{2}:\d{2}) - '),
-      attachmentRegExp: RegExp(r'\b(.*?)\s\(附件檔案\)'));
+      msgRegExp: RegExp(
+          r'^\[(\d{1,2})\/(\d{1,2})\/(\d{4}), (\d{1,2}):(\d{2}) (AM|PM)\] (.*)'),
+      dateTimeRegExp: RegExp(
+          r'^\[(\d{1,2}\/\d{1,2}\/\d{4}), \s*(\d{1,2}:\d{2}) (AM|PM)\] '),
+      attachmentRegExp: RegExp(r'^\<attached:\s*(.*?)\>$'));
 
   static final Map<MobileLocale, String> supportLocales = {
     MobileLocale.zhHantHK: "zh-hant-hk",

@@ -177,7 +177,7 @@ class ChatListWidgetState extends State<ChatListWidget> {
                         );
                       }
                       return SysMsgBubble(
-                          isFirstMsg: isFirstMsg, msg: chatMsg.msgs!.first);
+                          isFirstMsg: isFirstMsg, msg: chatMsg.msgs?.first);
                     }
                     if (chatMsg.isAttachmentValid == true &&
                         chatMsg.attachmentName != null &&

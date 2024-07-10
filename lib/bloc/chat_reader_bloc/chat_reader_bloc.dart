@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:whats_pie/common/enum.dart';
 import 'package:whats_pie/models/chat_info.dart';
 import 'package:whats_pie/common/regexp/regexp.dart';
 import 'package:whats_pie/models/directory_info.dart';
@@ -24,9 +25,10 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
   DirectoryInfo? getDirectoryInfo() => _dirInfo;
 
   String? _extractFileNameFromMsg(String value) {
+    late String extractedName;
     final Match? match = regex.attachmentRegExp.firstMatch(value);
     if (match != null) {
-      final String extractedName = match.group(1)!.trim();
+      extractedName = match.group(1)!.trim();
       final isFileNameValid = _dirInfo.isFileNameValid(extractedName);
       if (isFileNameValid == true) return extractedName;
       return null;
@@ -34,29 +36,60 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
     return '';
   }
 
-  Future<ChatMsg?> _extractMsgInfoFromString(String value) async {
-    Iterable<Match> matches = regex.msgRegExp.allMatches(value);
-    int? day, month, year, hour, minute;
+  Future<ChatMsg?> _extractMsgInfoFromString(String value, int? index) async {
+    int? day, month, year, hour, minute, second;
     String? sender;
     String? msg;
     String? attachmentName;
     File? attachmentFile;
     bool isAttachmentValid = false;
-    for (Match x in matches) {
-      day = int.tryParse(x.group(1)!);
-      month = int.parse(x.group(2)!);
-      year = int.parse(x.group(3)!);
-      hour = int.parse(x.group(4)!);
-      minute = int.parse(x.group(5)!);
-      msg = x.group(6);
-      if (msg != null && msg.contains(":")) {
-        int colonIndex = msg.indexOf(":");
-        sender = msg.substring(0, colonIndex);
-        msg = msg.substring(colonIndex + 1).trim();
-        attachmentName = _extractFileNameFromMsg(msg);
-      } else {
-        if (msg != null) {
-          attachmentName = _extractFileNameFromMsg(msg);
+
+    if (regex.platform == WhatsAppPlatform.iOS) {
+      if (regex.locale == MobileLocale.zhHantHK) {
+        final msgMatch = regex.msgRegExp.firstMatch(value);
+        if (msgMatch != null) {
+          bool isAM = false;
+          final dateStr = msgMatch.group(1)!;
+          final dateParts = dateStr.split('/');
+          day = int.parse(dateParts[0]);
+          month = int.parse(dateParts[1]);
+          year = int.parse(dateParts[2]);
+          isAM = msgMatch.group(2) == "上午";
+          hour = int.parse(msgMatch.group(3)!);
+          if (isAM == false) {
+            hour += 12;
+          }
+          minute = int.parse(msgMatch.group(4)!);
+          second = int.parse(msgMatch.group(5)!);
+          sender = msgMatch.group(6);
+          msg = msgMatch.group(7)?.trim();
+          final attachmentMatch =
+              regex.attachmentRegExp.firstMatch(msgMatch.group(7)!);
+          if (attachmentMatch != null) {
+            attachmentName = attachmentMatch.group(1);
+          } else {}
+        } else {}
+      }
+    } else {
+      if (regex.locale == MobileLocale.zhHantHK) {
+        Iterable<Match> matches = regex.msgRegExp.allMatches(value);
+        for (Match x in matches) {
+          day = int.tryParse(x.group(1)!);
+          month = int.parse(x.group(2)!);
+          year = int.parse(x.group(3)!);
+          hour = int.parse(x.group(4)!);
+          minute = int.parse(x.group(5)!);
+          msg = x.group(6);
+          if (msg != null && msg.contains(":")) {
+            int colonIndex = msg.indexOf(":");
+            sender = msg.substring(0, colonIndex);
+            msg = msg.substring(colonIndex + 1).trim();
+            attachmentName = _extractFileNameFromMsg(msg);
+          } else {
+            if (msg != null) {
+              attachmentName = _extractFileNameFromMsg(msg);
+            }
+          }
         }
       }
     }
@@ -68,18 +101,22 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
         if (isAttachmentValid) {
           final newDirectoryInfo = _dirInfo.updateFileInfo(
               fileName: attachmentName,
-              createdAt: DateTime(year!, month!, day!, hour!, minute!));
+              createdAt:
+                  DateTime(year!, month!, day!, hour!, minute!, second ?? 0));
           if (newDirectoryInfo != null) {
             _dirInfo = newDirectoryInfo;
           }
         }
       }
     }
+
     return ChatMsg(
       sender: sender,
       attachmentName: attachmentName,
       msgs: msg != null ? [msg] : [],
-      dateTime: "$day/$month/$year $hour:$minute",
+      dateTime: regex.platform == WhatsAppPlatform.iOS
+          ? "$day/$month/$year $hour:$minute:$second"
+          : "$day/$month/$year $hour:$minute",
       isAttachmentValid: isAttachmentValid,
       attachmentFile: isAttachmentValid ? attachmentFile : null,
       attachmentType:
@@ -92,6 +129,8 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
     Set<String> users = <String>{};
     List<ChatMsg> chatMsgs = [];
     emit(const ChatReaderState.reading());
+    if (regex.platform == WhatsAppPlatform.iOS &&
+        regex.locale == MobileLocale.zhHantHK) {}
 
     List<String> lines = chatFile.readAsLinesSync();
 
@@ -99,7 +138,7 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
       Match? match = regex.dateTimeRegExp.firstMatch(lines[i]);
 
       if (match != null) {
-        ChatMsg? chatMsg = await _extractMsgInfoFromString(lines[i]);
+        ChatMsg? chatMsg = await _extractMsgInfoFromString(lines[i], i);
         if (chatMsg != null) {
           chatMsg.sender != null ? users.add(chatMsg.sender!) : null;
           chatMsgs.add(chatMsg);
