@@ -58,7 +58,13 @@ class _AttachmentPreviewPage extends State<AttachmentPreviewPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.attachmentName),
+        title: ValueListenableBuilder<int>(
+          valueListenable: _currIndexNotifi,
+          builder: (context, currIndex, child) {
+            FileInfo fileInfo = widget.directoryInfo!.files![currIndex];
+            return Text(fileInfo.fileName);
+          },
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
