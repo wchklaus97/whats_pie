@@ -44,54 +44,64 @@ class ChatReaderBloc extends Bloc<ChatReaderEvent, ChatReaderState> {
     File? attachmentFile;
     bool isAttachmentValid = false;
 
-    if (regex.platform == WhatsAppPlatform.iOS) {
-      if (regex.locale == MobileLocale.zhHantHK) {
-        final msgMatch = regex.msgRegExp.firstMatch(value);
-        if (msgMatch != null) {
-          bool isAM = false;
-          final dateStr = msgMatch.group(1)!;
-          final dateParts = dateStr.split('/');
-          day = int.parse(dateParts[0]);
-          month = int.parse(dateParts[1]);
-          year = int.parse(dateParts[2]);
-          isAM = msgMatch.group(2) == "上午";
-          hour = int.parse(msgMatch.group(3)!);
-          if (isAM == false) {
-            hour += 12;
-          }
-          minute = int.parse(msgMatch.group(4)!);
-          second = int.parse(msgMatch.group(5)!);
-          sender = msgMatch.group(6);
-          msg = msgMatch.group(7)?.trim();
-          final attachmentMatch =
-              regex.attachmentRegExp.firstMatch(msgMatch.group(7)!);
-          if (attachmentMatch != null) {
-            attachmentName = attachmentMatch.group(1);
-          } else {}
-        } else {}
-      }
-    } else {
-      if (regex.locale == MobileLocale.zhHantHK) {
-        Iterable<Match> matches = regex.msgRegExp.allMatches(value);
-        for (Match x in matches) {
-          day = int.tryParse(x.group(1)!);
-          month = int.parse(x.group(2)!);
-          year = int.parse(x.group(3)!);
-          hour = int.parse(x.group(4)!);
-          minute = int.parse(x.group(5)!);
-          msg = x.group(6);
-          if (msg != null && msg.contains(":")) {
-            int colonIndex = msg.indexOf(":");
-            sender = msg.substring(0, colonIndex);
-            msg = msg.substring(colonIndex + 1).trim();
-            attachmentName = _extractFileNameFromMsg(msg);
-          } else {
-            if (msg != null) {
-              attachmentName = _extractFileNameFromMsg(msg);
+    switch (regex.platform) {
+      case WhatsAppPlatform.iOS:
+        switch (regex.locale) {
+          case MobileLocale.enUS:
+            return null;
+          case MobileLocale.zhHantHK:
+            final msgMatch = regex.msgRegExp.firstMatch(value);
+            if (msgMatch != null) {
+              bool isAM = false;
+              final dateStr = msgMatch.group(1)!;
+              final dateParts = dateStr.split('/');
+              day = int.parse(dateParts[0]);
+              month = int.parse(dateParts[1]);
+              year = int.parse(dateParts[2]);
+              isAM = msgMatch.group(2) == "上午";
+              hour = int.parse(msgMatch.group(3)!);
+              if (isAM == false) {
+                hour += 12;
+              }
+              minute = int.parse(msgMatch.group(4)!);
+              second = int.parse(msgMatch.group(5)!);
+              sender = msgMatch.group(6);
+              msg = msgMatch.group(7)?.trim();
+              final attachmentMatch =
+                  regex.attachmentRegExp.firstMatch(msgMatch.group(7)!);
+              if (attachmentMatch != null) {
+                attachmentName = attachmentMatch.group(1);
+              }
             }
-          }
+          default:
         }
-      }
+      case WhatsAppPlatform.android:
+      default:
+        switch (regex.locale) {
+          case MobileLocale.enUS:
+            return null;
+          case MobileLocale.zhHantHK:
+          default:
+            Iterable<Match> matches = regex.msgRegExp.allMatches(value);
+            for (Match x in matches) {
+              day = int.tryParse(x.group(1)!);
+              month = int.parse(x.group(2)!);
+              year = int.parse(x.group(3)!);
+              hour = int.parse(x.group(4)!);
+              minute = int.parse(x.group(5)!);
+              msg = x.group(6);
+              if (msg != null && msg.contains(":")) {
+                int colonIndex = msg.indexOf(":");
+                sender = msg.substring(0, colonIndex);
+                msg = msg.substring(colonIndex + 1).trim();
+                attachmentName = _extractFileNameFromMsg(msg);
+              } else {
+                if (msg != null) {
+                  attachmentName = _extractFileNameFromMsg(msg);
+                }
+              }
+            }
+        }
     }
 
     if (attachmentName != null) {
