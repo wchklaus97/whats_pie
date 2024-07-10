@@ -20,18 +20,13 @@
     <img src="https://img.shields.io/badge/Linux-not build installer yet%20-red" alt="Linux"/>
 </p>
 
-### A cross-platform desktop application built using the Flutter framework.
-```
-WhatsPie is a cross-platform desktop application built using the Flutter framework. It allows you to preview your exported WhatsApp chat records on Windows, macOS, and Linux computers. In theory, this application is written in Flutter, but it is currently only tested and ready for Windows
-```
+### WhatsPie is a cross-platform desktop application built using the Flutter framework. It allows you to preview your exported WhatsApp chat records on Windows, macOS, and Linux computers. In theory, this application is written in Flutter, but it is currently only tested and ready for Windows
 
 ## Testing Data
 Please look at the testing_data folder for the testing data. Please find the corresponding platform with the locale folder and your corresponding testing settings. The folder naming should be in the format {platform}-{mobile_locale_name}.
 
 ## Limitations
-```
 Supports handling chat record exports from WhatsApp on Android and iOS with en-US or zh-Hant-HK mobile locales. Note that support for all languages may be limited, as the exported chat record display patterns can vary depending on the mobile platform and locale.
-```
 
 ## Key Features
 Import and display your exported WhatsApp chat records
