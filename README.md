@@ -39,7 +39,7 @@ Import and display your exported WhatsApp chat records
 ```
 
 ## Support Chat Pattern
-If you are interested, you should look at **WhatsAppRegex**.
+If you are interested, you should look at **WhatsAppRegex**. The Support Chat Pattern is based on the **Nokia C2 TA-1204 (Android Version: 9; WhatsApp Version: 2.24.13.77) for Android**, and on the **iPhone 13 Pro (iOS: 18.0; WhatsApp Version: 2.24.13.79) for iOS**. It currently only supports the **en-US** or **zh-hant-hk** locales.
 #### For Android (en-US)
 ##### Pure Message Pattern on {file}.txt {Message sent by System}
 ```
